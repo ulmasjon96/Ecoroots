@@ -187,6 +187,14 @@ function audit() {
 		const rs = el.getClientRects();
 		if (rs.length > 1) out.push(`id split across lines: ${desc(el)}`);
 	}
+	// maps must render real geometry (not the load-error fallback), QR codes must render
+	for (const m of document.querySelectorAll('#heroMap, #mapCanvas, #miniMap')) {
+		if (m.querySelector('.map-error')) out.push(`map failed to load: #${m.id}`);
+		else if (m.querySelectorAll('svg path').length < 100) out.push(`map has no country shapes: #${m.id}`);
+	}
+	for (const q of document.querySelectorAll('.qr, .cert-qr')) {
+		if (!q.querySelector('svg rect, svg path')) out.push('QR code not rendered');
+	}
 	// bottom nav must not cover the end of the content
 	const bn = document.querySelector('#bnav');
 	if (bn && getComputedStyle(bn).display !== 'none' && !document.querySelector('dialog[open]')) {
