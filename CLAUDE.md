@@ -7,6 +7,7 @@ pasport, o'zgartirib bo'lmaydigan sertifikat izi va davriy tiriklik tekshiruviga
 Pilot: Buxoro viloyati, 500 daraxt. Grant muddati: 12 oy (2026-noyabr — 2027-oktyabr).
 
 ## Hujjatlar (kod yozishdan oldin tegishlisini o'qi)
+
 - `docs/PRD.md` — rollar, user story'lar, MVP chegarasi, nima MVP'ga KIRMAYDI
 - `docs/ARCHITECTURE.md` — tizim tuzilishi, servislar, tashqi integratsiyalar, deploy
 - `docs/DATABASE.md` — PostgreSQL + PostGIS sxemasi, holatlar mashinasi
@@ -16,6 +17,7 @@ Pilot: Buxoro viloyati, 500 daraxt. Grant muddati: 12 oy (2026-noyabr — 2027-o
 - `docs/prototype/index.html` — klikabel prototip. UI va oqimlar uchun manba (brauzerda och).
 
 ## Stack
+
 - **Frontend:** React 18 + TypeScript + Vite + TailwindCSS, React Router, TanStack Query, Zustand (faqat UI holati),
   MapLibre GL JS (xarita), react-i18next (uz / ru / en). PWA (vite-plugin-pwa).
 - **Backend:** FastAPI (Python 3.12), SQLAlchemy 2.0 async + asyncpg, Alembic, Pydantic v2,
@@ -25,6 +27,7 @@ Pilot: Buxoro viloyati, 500 daraxt. Grant muddati: 12 oy (2026-noyabr — 2027-o
   Frontend: Vercel (yoki shu VPS'da Caddy orqali).
 
 ## Monorepo tuzilishi
+
 ```
 ecoroots/
   apps/web/          # React: ommaviy sayt, foydalanuvchi, hamkor va admin kabinetlari
@@ -35,6 +38,7 @@ ecoroots/
 ```
 
 ## Buyruqlar
+
 ```
 # backend
 cd backend && uv sync && uv run alembic upgrade head && uv run uvicorn app.main:app --reload
@@ -48,10 +52,12 @@ pnpm typecheck && pnpm lint && pnpm test
 # hammasi birga
 docker compose -f infra/docker-compose.yml up --build
 ```
+
 Dasturchi Windows + PowerShell'da ishlaydi: skriptlarda bash-only sintaksisdan qoch yoki
 `Makefile` o'rniga `justfile`/`pnpm` skriptlaridan foydalan.
 
 ## Qat'iy qoidalar
+
 1. **Pul — faqat butun son, tiyinsiz so'm (`BIGINT`).** Float ishlatilmaydi. Valyuta ustuni doim bor (`UZS`, `USD`).
 2. **Daraxt holati faqat `services/tree_lifecycle.py` orqali o'zgaradi.** To'g'ridan-to'g'ri `tree.status = ...` yozish taqiqlanadi.
    Har bir o'tish `tree_events` jadvaliga yoziladi.
@@ -66,12 +72,14 @@ Dasturchi Windows + PowerShell'da ishlaydi: skriptlarda bash-only sintaksisdan q
 10. Tashqi API (to'lov, sun'iy yo'ldosh, blokcheyn) — `services/` ichida adapter interfeysi orqali; testlarda fake adapter.
 
 ## Kod uslubi
+
 - Python: ruff, type hints majburiy, servis qatlami routerlardan ajratilgan (router → service → repository).
 - TS: `strict: true`, `any` yo'q, API tiplari `openapi-typescript` bilan backend sxemasidan generatsiya qilinadi.
 - Komponentlar: `features/<soha>/` bo'yicha (map, plant, passport, rating, partner, admin).
 - Commit: Conventional Commits (`feat(passport): ...`).
 
 ## Ish tartibi
+
 - Yangi vazifa: `docs/ROADMAP.md` dan keyingi belgilanmagan bandni ol, tugagach `[x]` qil.
 - Sxema o'zgarsa: Alembic migratsiya + `docs/DATABASE.md` ni yangilash.
 - Endpoint qo'shilsa: `docs/API.md` ni yangilash.

@@ -4,6 +4,7 @@ Barcha jadvallarda: `id UUID PK DEFAULT gen_random_uuid()`, `created_at timestam
 Pul: `BIGINT` (so'mda, tiyinsiz) + `currency CHAR(3)`.
 
 ## Foydalanuvchi va tashkilotlar
+
 ```
 users(id, phone UNIQUE NULL, email UNIQUE NULL, telegram_id BIGINT UNIQUE NULL,
       display_name, locale ('uz'|'ru'|'en'), role ('user'|'verifier'|'admin'), is_active)
@@ -12,6 +13,7 @@ organization_members(org_id FK, user_id FK, role ('owner'|'member'), PK(org_id,u
 ```
 
 ## Hamkorlar va hududlar
+
 ```
 partners(id, name, type ('farmer'|'forestry'|'ngo'|'youth'), status ('pending'|'certified'|'suspended'),
          contact_phone, payout_details_encrypted, rating NUMERIC(3,2))
@@ -26,6 +28,7 @@ plots(id, region_id FK, partner_id FK, boundary geography(Polygon,4326), name)  
 ```
 
 ## Buyurtma va to'lov
+
 ```
 orders(id, code UNIQUE ('ORD-...'), buyer_user_id FK, buyer_org_id FK NULL,
        region_id FK, species_id FK, quantity INT CHECK (quantity BETWEEN 1 AND 1000),
@@ -38,6 +41,7 @@ payments(id, order_id FK, provider ('payme'|'click'|'uzum'|'intl'), provider_txn
 ```
 
 ## Daraxtlar
+
 ```
 trees(id, code UNIQUE ('ECR-UZ-BX-000123'), order_id FK, species_id FK, region_id FK, plot_id FK NULL,
       partner_id FK, owner_user_id FK NULL, owner_org_id FK NULL, display_owner,
@@ -49,26 +53,32 @@ tree_photos(id, tree_id FK, uploaded_by FK, s3_key, taken_at, exif_lat, exif_lon
 verifications(id, plot_id FK NULL, tree_id FK NULL, method ('satellite_ndvi'|'drone'|'photo'|'manual'),
               result ('alive'|'uncertain'|'dead'), score NUMERIC, details JSONB, verified_by FK NULL)
 ```
+
 GIST indekslar: `trees.location`, `regions.boundary`, `plots.boundary`.
 
 ### Daraxt holatlari (faqat `services/tree_lifecycle.py` o'zgartiradi)
+
 ```
 planted ──► verified_alive ──► (davriy) verified_alive
    │              │
    ├─► needs_review ──► planted | rejected
    │              └─► dead ──► replanted (yangi tree, replaces_tree_id)
 ```
+
 Ruxsat etilgan o'tishlar jadvali kodda `ALLOWED_TRANSITIONS` dict sifatida saqlanadi va test bilan qoplanadi.
 
 ## Sertifikatlar
+
 ```
 certificates(id, tree_id FK, version INT, record JSONB, prev_hash CHAR(64), hash CHAR(64) UNIQUE,
              status ('active'|'superseded'), anchor_id FK NULL)
 anchors(id, merkle_root CHAR(64), leaf_count INT, chain ('none'|'ton'|'polygon'), tx_hash NULL, anchored_at)
 ```
+
 `hash = sha256(canonical_json(record) || prev_hash)`; `prev_hash` — oldingi yaratilgan sertifikat hashi (global zanjir).
 
 ## Reyting va boshqalar
+
 ```
 leaderboard_mv  -- MATERIALIZED VIEW: entity_type, entity_id, name, trees_total, trees_alive, survival_pct, period
 notifications(id, user_id FK, channel ('telegram'|'email'|'push'), template, payload JSONB, sent_at, status)

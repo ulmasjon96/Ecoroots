@@ -5,20 +5,23 @@ Bazaviy yo'l: `/api/v1`. Autentifikatsiya: `Authorization: Bearer <jwt>`. Xatola
 Ro'yxatlar: `?limit=&cursor=` (cursor-pagination). Til: `Accept-Language: uz|ru|en`.
 
 ## Auth
-| Metod | Yo'l | Kim | Izoh |
-|---|---|---|---|
-| POST | `/auth/otp/request` | guest | `{phone}` |
-| POST | `/auth/otp/verify` | guest | `{phone, code}` → tokenlar |
-| POST | `/auth/telegram` | guest | `{init_data}` Mini App |
-| POST | `/auth/refresh` | cookie | |
-| GET | `/me` | user | profil, rollar, tashkilotlar |
+
+| Metod | Yo'l                | Kim    | Izoh                         |
+| ----- | ------------------- | ------ | ---------------------------- |
+| POST  | `/auth/otp/request` | guest  | `{phone}`                    |
+| POST  | `/auth/otp/verify`  | guest  | `{phone, code}` → tokenlar   |
+| POST  | `/auth/telegram`    | guest  | `{init_data}` Mini App       |
+| POST  | `/auth/refresh`     | cookie |                              |
+| GET   | `/me`               | user   | profil, rollar, tashkilotlar |
 
 ## Katalog (ommaviy)
+
 | GET | `/regions?active=true` | hududlar, risk, hamkor soni |
 | GET | `/regions/{code}/species` | tur, narx, CO₂ |
 | GET | `/stats` | jami daraxt, tirik %, taxminiy CO₂, hamkorlar |
 
 ## Buyurtma va to'lov
+
 | POST | `/orders` | user | `{region_code, species_code, quantity, dedication_type, display_name, message?, org_id?}` → `pending_payment`, narx serverda |
 | GET | `/orders` | user | o'z buyurtmalari |
 | GET | `/orders/{code}` | owner | holat, biriktirilgan hamkor, daraxtlar |
@@ -27,6 +30,7 @@ Ro'yxatlar: `?limit=&cursor=` (cursor-pagination). Til: `Accept-Language: uz|ru|
 | POST | `/payments/click/prepare`, `/complete` | Click | imzo tekshiruvi |
 
 ## Daraxtlar va xarita
+
 | GET | `/trees/{code}` | guest | pasport: public maydonlar, rasmlar, tekshiruvlar, sertifikat |
 | GET | `/trees/{code}/certificate/proof` | guest | `{record, hash, prev_hash, merkle_proof, anchor}` |
 | GET | `/me/trees` | user | |
@@ -35,6 +39,7 @@ Ro'yxatlar: `?limit=&cursor=` (cursor-pagination). Til: `Accept-Language: uz|ru|
 | GET | `/leaderboard?type=people|company|edu|region&period=all|year` | guest | |
 
 ## Hamkor
+
 | GET | `/partner/orders?status=assigned` | partner | faqat o'z buyurtmalari |
 | POST | `/partner/uploads/presign` | partner | `{content_type}` → `{url, s3_key}` |
 | POST | `/partner/orders/{code}/plantings` | partner | `{items:[{lat, lon, accuracy_m, s3_key, taken_at}]}` → daraxtlar yaratiladi |
@@ -42,6 +47,7 @@ Ro'yxatlar: `?limit=&cursor=` (cursor-pagination). Til: `Accept-Language: uz|ru|
 | GET | `/partner/payouts` | partner | |
 
 ## Verifier / Admin
+
 | GET | `/admin/review-queue` | verifier | `needs_review` daraxtlar |
 | POST | `/admin/trees/{code}/decision` | verifier | `{decision: approve|reject, reason}` |
 | CRUD | `/admin/regions`, `/admin/species`, `/admin/partners`, `/admin/region-species` | admin | |
