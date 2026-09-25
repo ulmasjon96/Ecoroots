@@ -1,17 +1,11 @@
 {
-  "name": "ecoroots1",
-  "version": "1.0.0",
-  "main": "index.js",
-  "directories": {
-    "doc": "docs"
-  },
+  "name": "ecoroots",
+  "private": true,
+  "description": "EcoRoots — global daraxt ekish platformasi",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "format": "prettier --write docs/prototype/index.html \"**/*.md\"",
+    "format:check": "prettier --check docs/prototype/index.html \"**/*.md\""
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "description": "",
   "devDependencies": {
     "prettier": "3.6.2"
   }
