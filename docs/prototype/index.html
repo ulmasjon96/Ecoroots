@@ -3,11 +3,14 @@
 	<head>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-		<title>EcoRoots — prototip</title>
+		<title>EcoRoots · Daraxtni masofadan eking</title>
+		<link
+			rel="icon"
+			href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='15' fill='%23173326'/%3E%3Cpath d='M16 25V14' stroke='%23EAF2E6' stroke-width='2' stroke-linecap='round'/%3E%3Cpath d='M16 17c-4 0-6-3-6-7 4 0 6 3 6 7zM16 15c0-4 2.5-6.5 6.5-6.5 0 4-2.5 6.5-6.5 6.5z' fill='%2362B865'/%3E%3Cpath d='M11 25h10' stroke='%23D2A94F' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E" />
 		<link rel="preconnect" href="https://fonts.googleapis.com" />
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 		<link
-			href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700&family=Unbounded:wght@500;600;700&display=swap"
+			href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600&family=Unbounded:wght@600&display=swap"
 			rel="stylesheet" />
 		<script>
 			try {
@@ -16,6 +19,10 @@
 			} catch (e) {}
 		</script>
 		<style>
+			/* =========================================================
+			   Tokens. Colours are unchanged; everything else (space,
+			   radius, type, control sizes) comes from the scales below.
+			   ========================================================= */
 			:root {
 				--bg: #eef1ea;
 				--surface: #ffffff;
@@ -32,8 +39,51 @@
 				--sand: #d2a94f;
 				--sand-soft: #f4e8c9;
 				--danger: #b5452f;
+				--on-dark: #eaf2e6;
+				--on-dark-muted: #b9cbbe;
+
 				--display: 'Unbounded', 'Arial Black', system-ui, sans-serif;
 				--body: 'Onest', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+
+				/* spacing */
+				--s1: 4px;
+				--s2: 8px;
+				--s3: 12px;
+				--s4: 16px;
+				--s5: 24px;
+				--s6: 32px;
+				--s7: 48px;
+				--s8: 64px;
+
+				/* radius */
+				--r-sm: 8px; /* buttons, inputs, pills */
+				--r-md: 14px; /* cards, panels, dialogs */
+				--r-lg: 22px; /* hero, maps */
+
+				/* type: six sizes + a clamp for the hero */
+				--fs-xs: 12px;
+				--fs-sm: 14px;
+				--fs-md: 16px;
+				--fs-lg: 18px;
+				--fs-xl: 24px;
+				--fs-2xl: 32px;
+				--fs-hero: clamp(32px, 3.6vw, 48px); /* longest uz word must fit the 5/12 hero column */
+				--fw-regular: 400;
+				--fw-medium: 500;
+				--fw-semibold: 600;
+
+				/* layout & controls */
+				--page-w: 1180px;
+				--gutter: var(--s5);
+				--header-h: 64px;
+				--bnav-h: 64px;
+				--ctl-h: 44px;
+				--ctl-h-sm: 36px;
+				--icon: 20px;
+				--bw: 1px;
+				--bw-ctl: 1.5px;
+				--ease: 0.12s ease;
+
 				box-sizing: border-box;
 				padding-top: env(safe-area-inset-top, 0px);
 				padding-bottom: env(safe-area-inset-bottom, 0px);
@@ -74,8 +124,17 @@
 				--sand-soft: #3a3120;
 				--danger: #e0775f;
 			}
+			@media (max-width: 600px) {
+				:root {
+					--gutter: var(--s4);
+				}
+			}
+
+			/* =========================================================
+			   Base
+			   ========================================================= */
 			html {
-				scroll-padding-top: env(safe-area-inset-top, 0px);
+				scroll-padding-top: calc(var(--header-h) + var(--s4));
 			}
 			*,
 			*::before,
@@ -87,8 +146,9 @@
 				background: var(--bg);
 				color: var(--ink);
 				font-family: var(--body);
-				font-size: 16px;
-				line-height: 1.55;
+				font-size: var(--fs-md);
+				font-weight: var(--fw-regular);
+				line-height: 1.5;
 				-webkit-font-smoothing: antialiased;
 			}
 			img,
@@ -97,6 +157,14 @@
 			}
 			a {
 				color: var(--turq);
+				text-underline-offset: 2px;
+			}
+			a:hover {
+				text-decoration-thickness: 2px;
+			}
+			b,
+			strong {
+				font-weight: var(--fw-semibold);
 			}
 			button,
 			input,
@@ -105,156 +173,279 @@
 				font: inherit;
 				color: inherit;
 			}
+			button {
+				cursor: pointer;
+			}
+			button:disabled {
+				cursor: not-allowed;
+			}
 			:focus-visible {
 				outline: 3px solid var(--turq);
 				outline-offset: 2px;
-				border-radius: 6px;
 			}
 			h1,
 			h2,
 			h3 {
 				font-family: var(--display);
-				font-weight: 600;
-				line-height: 1.15;
+				font-weight: var(--fw-semibold);
+				line-height: 1.2;
 				margin: 0;
 				letter-spacing: -0.01em;
+				overflow-wrap: break-word;
 			}
 			h1 {
-				font-size: clamp(1.9rem, 4.4vw, 3.1rem);
+				font-size: var(--fs-2xl);
 			}
 			h2 {
-				font-size: clamp(1.35rem, 2.6vw, 1.8rem);
+				font-size: var(--fs-xl);
 			}
 			h3 {
-				font-size: 1.05rem;
+				font-size: var(--fs-lg);
+			}
+			@media (max-width: 600px) {
+				h1 {
+					font-size: var(--fs-xl);
+				}
 			}
 			p {
 				margin: 0;
 			}
+
+			/* text roles — one class per job */
 			.muted {
 				color: var(--muted);
 			}
 			.small {
-				font-size: 0.875rem;
+				font-size: var(--fs-sm);
+			}
+			.subtle {
+				/* secondary meta line: ids, dates, descriptions under titles */
+				font-size: var(--fs-sm);
+				color: var(--muted);
+			}
+			.caption {
+				/* labels above values, photo captions */
+				display: block;
+				font-size: var(--fs-xs);
+				color: var(--muted);
+			}
+			.kicker {
+				/* small label above a page title */
+				font-size: var(--fs-sm);
+				color: var(--muted);
+				margin-bottom: var(--s1);
+			}
+			.lead {
+				color: var(--muted);
+				max-width: 70ch;
+			}
+			.nowrap {
+				white-space: nowrap;
+			}
+			.invisible {
+				visibility: hidden;
+			}
+			.mt-2 {
+				margin-top: var(--s2);
+			}
+			.mt-3 {
+				margin-top: var(--s3);
+			}
+			.mt-4 {
+				margin-top: var(--s4);
 			}
 
-			/* header */
+			/* =========================================================
+			   Page layout & headings rhythm
+			   title → s2 → lead;  section title: s7 above, s4 below;
+			   blocks stack with s5.
+			   ========================================================= */
+			.top-in,
+			main {
+				max-width: var(--page-w);
+				margin: 0 auto;
+				padding-left: var(--gutter);
+				padding-right: var(--gutter);
+			}
+			main {
+				padding-top: var(--s6);
+				padding-bottom: var(--s8);
+			}
+			.page-head .lead {
+				margin-top: var(--s2);
+			}
+			.page-head .title-meta {
+				margin-top: var(--s3);
+			}
+			.section-title {
+				margin: var(--s7) 0 var(--s4);
+			}
+			.section-head {
+				display: flex;
+				justify-content: space-between;
+				align-items: center;
+				gap: var(--s4);
+				flex-wrap: wrap;
+				margin: var(--s7) 0 var(--s4);
+			}
+
+			/* =========================================================
+			   Header
+			   ========================================================= */
 			.top {
 				position: sticky;
 				top: env(safe-area-inset-top, 0px);
 				z-index: 20;
 				background: color-mix(in srgb, var(--bg) 88%, transparent);
 				backdrop-filter: blur(10px);
-				border-bottom: 1px solid var(--line);
+				border-bottom: var(--bw) solid var(--line);
 			}
 			.top-in {
-				max-width: 1180px;
-				margin: 0 auto;
+				height: var(--header-h);
 				display: flex;
 				align-items: center;
-				gap: 20px;
-				padding: 12px 20px;
+				gap: var(--s5);
 			}
 			.brand {
+				flex: none;
 				display: flex;
 				align-items: center;
-				gap: 10px;
+				gap: var(--s2);
 				text-decoration: none;
 				color: var(--ink);
 				font-family: var(--display);
-				font-weight: 700;
-				font-size: 1.05rem;
+				font-weight: var(--fw-semibold);
+				font-size: var(--fs-lg);
 			}
 			.brand svg {
-				width: 30px;
-				height: 30px;
+				width: 32px;
+				height: 32px;
 			}
 			.nav {
 				display: flex;
-				gap: 4px;
+				align-items: center;
+				gap: var(--s1);
 				margin-left: auto;
+				min-width: 0;
 			}
 			.nav a {
-				padding: 8px 12px;
-				border-radius: 999px;
+				display: inline-flex;
+				align-items: center;
+				height: var(--ctl-h-sm);
+				padding: 0 var(--s3);
+				border-radius: var(--r-sm);
 				text-decoration: none;
 				color: var(--muted);
-				font-weight: 500;
-				font-size: 0.95rem;
-			}
-			.nav a[aria-current='page'] {
-				background: var(--juniper);
-				color: #eaf2e6;
+				font-size: var(--fs-sm);
+				font-weight: var(--fw-medium);
+				white-space: nowrap;
+				transition:
+					color var(--ease),
+					background var(--ease);
 			}
 			.nav a:hover {
 				color: var(--ink);
+				background: var(--surface2);
 			}
-			.nav a[aria-current='page']:hover {
-				color: #fff;
+			.nav a[aria-current='page'] {
+				background: var(--juniper);
+				color: var(--on-dark);
 			}
-			.demo-tag {
-				font-size: 0.75rem;
-				color: var(--muted);
-				border: 1px dashed var(--line);
-				padding: 3px 8px;
-				border-radius: 6px;
-				white-space: nowrap;
+			.nav .nav-short {
+				display: none;
 			}
 			.top-tools {
+				flex: none;
 				display: flex;
 				align-items: center;
-				gap: 8px;
+				gap: var(--s2);
 			}
 			.lang-switch {
 				display: flex;
-				border: 1.5px solid var(--line);
-				border-radius: 999px;
-				padding: 2px;
+				height: var(--ctl-h-sm);
+				padding: var(--s1);
+				gap: var(--s1);
+				border: var(--bw-ctl) solid var(--line);
+				border-radius: var(--r-sm);
 			}
 			.lang-switch button {
 				border: 0;
 				background: transparent;
 				color: var(--muted);
-				font-size: 0.78rem;
-				font-weight: 600;
-				padding: 5px 9px;
-				border-radius: 999px;
-				cursor: pointer;
+				font-size: var(--fs-xs);
+				font-weight: var(--fw-semibold);
+				padding: 0 var(--s2);
+				border-radius: var(--r-sm);
 				line-height: 1;
+				transition:
+					color var(--ease),
+					background var(--ease);
 			}
 			.lang-switch button:hover {
 				color: var(--ink);
+				background: var(--surface2);
 			}
 			.lang-switch button[aria-pressed='true'] {
 				background: var(--ink);
 				color: var(--bg);
 			}
 			.theme-btn {
-				width: 34px;
-				height: 34px;
+				width: var(--ctl-h-sm);
+				height: var(--ctl-h-sm);
 				display: inline-flex;
 				align-items: center;
 				justify-content: center;
-				border: 1.5px solid var(--line);
-				border-radius: 999px;
+				padding: 0;
+				border: var(--bw-ctl) solid var(--line);
+				border-radius: var(--r-sm);
 				background: transparent;
 				color: var(--ink);
-				cursor: pointer;
-				padding: 0;
+				transition: border-color var(--ease);
 			}
 			.theme-btn:hover {
 				border-color: var(--turq);
 			}
 			.theme-btn svg {
-				width: 18px;
-				height: 18px;
+				width: var(--icon);
+				height: var(--icon);
+			}
+			.demo-tag {
+				font-size: var(--fs-xs);
+				color: var(--muted);
+				border: var(--bw) dashed var(--line);
+				padding: var(--s1) var(--s2);
+				border-radius: var(--r-sm);
+				white-space: nowrap;
+			}
+			@media (max-width: 1023px) {
+				.demo-tag {
+					display: none;
+				}
+			}
+			@media (max-width: 1023px) {
+				.top-in {
+					gap: var(--s4);
+				}
+				.nav {
+					gap: 0;
+				}
+				.nav a {
+					padding: 0 var(--s2);
+				}
+			}
+			@media (max-width: 1179px) {
+				.nav .nav-full {
+					display: none;
+				}
+				.nav .nav-short {
+					display: inline;
+				}
 			}
 			.bottom-nav {
 				display: none;
 			}
 			@media (max-width: 860px) {
-				.nav,
-				.demo-tag {
+				.nav {
 					display: none;
 				}
 				.top-tools {
@@ -267,103 +458,169 @@
 					right: 0;
 					bottom: 0;
 					z-index: 30;
+					height: calc(var(--bnav-h) + env(safe-area-inset-bottom, 0px));
+					padding: 0 var(--s1) env(safe-area-inset-bottom, 0px);
 					background: var(--surface);
-					border-top: 1px solid var(--line);
-					padding: 6px 4px calc(6px + env(safe-area-inset-bottom, 0px));
+					border-top: var(--bw) solid var(--line);
 				}
 				.bottom-nav a {
-					flex: 1;
+					flex: 1 1 0;
+					min-width: 0;
 					display: flex;
 					flex-direction: column;
 					align-items: center;
-					gap: 2px;
-					font-size: 0.7rem;
+					justify-content: center;
+					gap: var(--s1);
+					font-size: var(--fs-xs);
 					color: var(--muted);
 					text-decoration: none;
-					padding: 4px 0;
+					transition: color var(--ease);
+				}
+				.bottom-nav a span {
+					max-width: 100%;
+					overflow: hidden;
+					text-overflow: ellipsis;
+					white-space: nowrap;
+				}
+				.bottom-nav a:hover {
+					color: var(--ink);
 				}
 				.bottom-nav a svg {
-					width: 22px;
-					height: 22px;
+					width: var(--icon);
+					height: var(--icon);
 				}
 				.bottom-nav a[aria-current='page'] {
 					color: var(--turq);
-					font-weight: 600;
+					font-weight: var(--fw-semibold);
 				}
 				main {
-					padding-bottom: 84px;
+					padding-bottom: calc(var(--bnav-h) + var(--s6) + env(safe-area-inset-bottom, 0px));
 				}
 			}
 
-			main {
-				max-width: 1180px;
-				margin: 0 auto;
-				padding: 28px 20px 60px;
-			}
-			@media (max-width: 860px) {
-				/* must come after the base rule, otherwise the fixed bottom nav covers the last block */
-				main {
-					padding-bottom: calc(96px + env(safe-area-inset-bottom, 0px));
-				}
-			}
-			td.nowrap {
-				white-space: nowrap;
-			}
+			/* =========================================================
+			   Controls: buttons, inputs, chips
+			   ========================================================= */
 			.btn {
 				display: inline-flex;
 				align-items: center;
 				justify-content: center;
-				gap: 8px;
-				border: 0;
-				border-radius: 12px;
-				padding: 12px 20px;
-				font-weight: 600;
-				cursor: pointer;
+				gap: var(--s2);
+				min-height: var(--ctl-h);
+				padding: var(--s2) var(--s5);
+				border: var(--bw-ctl) solid transparent;
+				border-radius: var(--r-sm);
+				font-size: var(--fs-md);
+				font-weight: var(--fw-semibold);
+				line-height: 1.25;
+				text-align: center;
 				text-decoration: none;
+				cursor: pointer;
 				transition:
-					transform 0.12s ease,
-					background 0.12s;
+					filter var(--ease),
+					border-color var(--ease),
+					background var(--ease),
+					transform var(--ease);
 			}
-			.btn:active {
+			.btn:active:not(:disabled) {
 				transform: scale(0.98);
+			}
+			.btn:disabled,
+			.btn[disabled] {
+				opacity: 0.45;
+				cursor: not-allowed;
 			}
 			.btn-primary {
 				background: var(--turq);
 				color: #fff;
 			}
-			.btn-primary:hover {
-				filter: brightness(1.07);
-			}
-			.btn-ghost {
-				background: transparent;
-				border: 1.5px solid var(--line);
-				color: var(--ink);
-			}
-			.btn-ghost:hover {
-				border-color: var(--turq);
-			}
 			.btn-leaf {
 				background: var(--leaf);
 				color: #fff;
 			}
-			.btn[disabled] {
+			.btn-primary:hover:not(:disabled),
+			.btn-leaf:hover:not(:disabled) {
+				filter: brightness(1.08);
+			}
+			.btn-ghost {
+				background: transparent;
+				border-color: var(--line);
+				color: var(--ink);
+			}
+			.btn-ghost:hover:not(:disabled) {
+				border-color: var(--turq);
+			}
+			.btn-sm {
+				min-height: var(--ctl-h-sm);
+				padding: var(--s1) var(--s4);
+				font-size: var(--fs-sm);
+			}
+			.btn-icon {
+				width: var(--ctl-h-sm);
+				padding: 0;
+			}
+			.btn-block {
+				width: 100%;
+			}
+			.btn-stack {
+				display: flex;
+				flex-direction: column;
+				gap: var(--s2);
+				margin-top: var(--s3);
+			}
+
+			.field {
+				display: flex;
+				flex-direction: column;
+				gap: var(--s2);
+				margin-top: var(--s4);
+			}
+			.field label {
+				font-size: var(--fs-sm);
+				font-weight: var(--fw-medium);
+			}
+			.field input,
+			.field select,
+			.field textarea {
+				width: 100%;
+				min-height: var(--ctl-h);
+				padding: 0 var(--s3);
+				background: var(--surface);
+				border: var(--bw-ctl) solid var(--line);
+				border-radius: var(--r-sm);
+				transition: border-color var(--ease);
+			}
+			.field textarea {
+				padding: var(--s3);
+				resize: vertical;
+			}
+			.field input:hover,
+			.field select:hover,
+			.field textarea:hover {
+				border-color: color-mix(in srgb, var(--turq) 50%, var(--line));
+			}
+			.field input:focus,
+			.field select:focus,
+			.field textarea:focus {
+				border-color: var(--turq);
+			}
+			.field input:disabled,
+			.field select:disabled,
+			.field textarea:disabled {
 				opacity: 0.45;
 				cursor: not-allowed;
 			}
-			.panel {
-				background: var(--surface);
-				border: 1px solid var(--line);
-				border-radius: 18px;
-				padding: 22px;
-			}
+
 			.pill {
 				display: inline-flex;
 				align-items: center;
-				gap: 6px;
-				padding: 3px 10px;
-				border-radius: 999px;
-				font-size: 0.8rem;
-				font-weight: 600;
+				gap: var(--s2);
+				padding: var(--s1) var(--s2);
+				border-radius: var(--r-sm);
+				font-size: var(--fs-xs);
+				font-weight: var(--fw-medium);
+				line-height: 16px;
+				white-space: nowrap;
 			}
 			.pill.alive {
 				background: var(--leaf-soft);
@@ -382,142 +639,230 @@
 				color: var(--danger);
 			}
 			.dot {
+				flex: none;
 				width: 8px;
 				height: 8px;
 				border-radius: 50%;
 				background: currentColor;
 			}
 
-			/* hero */
+			/* =========================================================
+			   Surfaces
+			   ========================================================= */
+			.panel {
+				background: var(--surface);
+				border: var(--bw) solid var(--line);
+				border-radius: var(--r-md);
+				padding: var(--s5);
+			}
+			.panel-sub {
+				margin-top: var(--s5);
+			}
+			.panel-desc {
+				margin: var(--s1) 0 var(--s3);
+			}
+			.note {
+				font-size: var(--fs-sm);
+				color: var(--muted);
+				border-left: 3px solid var(--sand);
+				padding: var(--s2) var(--s3);
+				margin-top: var(--s5);
+				background: var(--surface2);
+				border-radius: 0 var(--r-sm) var(--r-sm) 0;
+			}
+			.empty {
+				margin-top: var(--s5);
+				padding: var(--s7) var(--s5);
+				text-align: center;
+				border: var(--bw-ctl) dashed var(--line);
+				border-radius: var(--r-md);
+			}
+			.empty p {
+				margin: var(--s2) auto 0;
+				max-width: 44ch;
+				color: var(--muted);
+			}
+			.empty .btn {
+				margin-top: var(--s5);
+			}
+			.kpis {
+				display: grid;
+				grid-template-columns: repeat(3, minmax(0, 1fr));
+				gap: var(--s4);
+				margin-top: var(--s5);
+			}
+			.kpis .panel b {
+				display: block;
+				font-family: var(--display);
+				font-size: var(--fs-xl);
+				font-weight: var(--fw-semibold);
+				line-height: 1.2;
+				margin-bottom: var(--s1);
+				font-variant-numeric: tabular-nums;
+				overflow-wrap: anywhere;
+			}
+			@media (max-width: 600px) {
+				.kpis {
+					grid-template-columns: 1fr;
+				}
+			}
+
+			/* =========================================================
+			   Home
+			   ========================================================= */
 			.hero {
 				display: grid;
 				grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
-				gap: 0;
 				background: var(--juniper);
-				border-radius: 26px;
+				border-radius: var(--r-lg);
 				overflow: hidden;
-				color: #eaf2e6;
+				color: var(--on-dark);
 				min-height: 480px;
 			}
 			.hero-copy {
-				padding: 44px 40px;
+				padding: var(--s7) var(--s6);
 				display: flex;
 				flex-direction: column;
-				gap: 22px;
 				justify-content: center;
+				gap: var(--s5);
 			}
 			.hero-copy h1 {
 				color: #f2f7ef;
+				font-size: var(--fs-hero);
+				line-height: 1.1;
 			}
 			.hero-copy p {
-				color: #b9cbbe;
+				color: var(--on-dark-muted);
 				max-width: 44ch;
-				font-size: 1.05rem;
+				font-size: var(--fs-lg);
 			}
 			.hero-actions {
 				display: flex;
-				gap: 12px;
+				gap: var(--s3);
 				flex-wrap: wrap;
 			}
 			.hero .btn-ghost {
-				color: #eaf2e6;
+				color: var(--on-dark);
 				border-color: #3b5c4c;
+			}
+			.hero .btn-ghost:hover {
+				border-color: var(--on-dark);
 			}
 			.hero-map {
 				position: relative;
 				min-height: 360px;
 			}
+			.map-canvas {
+				position: absolute;
+				inset: 0;
+			}
 			.hero-legend {
 				position: absolute;
-				left: 16px;
-				bottom: 14px;
+				left: var(--s4);
+				bottom: var(--s4);
 				display: flex;
-				gap: 14px;
-				font-size: 0.8rem;
-				color: #b9cbbe;
 				flex-wrap: wrap;
+				gap: var(--s4);
+				font-size: var(--fs-xs);
+				color: var(--on-dark-muted);
 			}
 			.lg {
 				display: inline-flex;
 				align-items: center;
-				gap: 6px;
+				gap: var(--s2);
 			}
 			.lg i {
-				width: 10px;
-				height: 10px;
+				width: 8px;
+				height: 8px;
 				border-radius: 50%;
-				display: inline-block;
+			}
+			.lg-tree {
+				background: #7ed281;
+			}
+			.lg-risk {
+				background: #d9b25e;
 			}
 			@media (max-width: 860px) {
 				.hero {
 					grid-template-columns: 1fr;
+					min-height: 0;
 				}
 				.hero-copy {
-					padding: 30px 22px;
+					padding: var(--s6) var(--s5);
 				}
 				.hero-map {
 					min-height: 280px;
 				}
 			}
-
+			@media (max-width: 600px) {
+				.hero-copy {
+					padding: var(--s5) var(--s4);
+				}
+			}
 			.stats {
 				display: grid;
-				grid-template-columns: repeat(4, 1fr);
-				gap: 1px;
+				grid-template-columns: repeat(4, minmax(0, 1fr));
+				gap: var(--bw);
+				margin-top: var(--s5);
 				background: var(--line);
-				border: 1px solid var(--line);
-				border-radius: 18px;
+				border: var(--bw) solid var(--line);
+				border-radius: var(--r-md);
 				overflow: hidden;
-				margin: 22px 0 48px;
 			}
 			.stat {
 				background: var(--surface);
-				padding: 18px 20px;
+				padding: var(--s4) var(--s5);
 			}
 			.stat b {
 				display: block;
 				font-family: var(--display);
-				font-size: 1.5rem;
-				font-weight: 600;
+				font-size: var(--fs-xl);
+				font-weight: var(--fw-semibold);
+				line-height: 1.2;
+				margin-bottom: var(--s1);
+				font-variant-numeric: tabular-nums;
 			}
 			.stat span {
+				font-size: var(--fs-sm);
 				color: var(--muted);
-				font-size: 0.875rem;
 			}
 			@media (max-width: 700px) {
 				.stats {
-					grid-template-columns: repeat(2, 1fr);
+					grid-template-columns: repeat(2, minmax(0, 1fr));
 				}
 			}
-
+			@media (max-width: 600px) {
+				.stat {
+					padding: var(--s4);
+				}
+			}
 			.steps {
 				display: grid;
-				grid-template-columns: repeat(4, 1fr);
-				gap: 18px;
-				margin-top: 20px;
+				grid-template-columns: repeat(4, minmax(0, 1fr));
+				gap: var(--s5);
 				counter-reset: s;
 			}
 			.step {
 				border-top: 3px solid var(--turq);
-				padding-top: 14px;
+				padding-top: var(--s4);
 			}
 			.step::before {
 				counter-increment: s;
 				content: counter(s);
-				font-family: var(--display);
-				color: var(--turq);
-				font-size: 1.4rem;
 				display: block;
-				margin-bottom: 6px;
+				margin-bottom: var(--s2);
+				font-family: var(--display);
+				font-size: var(--fs-xl);
+				line-height: 1.2;
+				color: var(--turq);
 			}
 			.step p {
 				color: var(--muted);
-				font-size: 0.95rem;
-				margin-top: 6px;
+				margin-top: var(--s2);
 			}
 			@media (max-width: 860px) {
 				.steps {
-					grid-template-columns: 1fr 1fr;
+					grid-template-columns: repeat(2, minmax(0, 1fr));
 				}
 			}
 			@media (max-width: 520px) {
@@ -525,22 +870,10 @@
 					grid-template-columns: 1fr;
 				}
 			}
-			.section {
-				margin-top: 52px;
-			}
-			.section-head {
-				display: flex;
-				justify-content: space-between;
-				align-items: end;
-				gap: 16px;
-				flex-wrap: wrap;
-			}
-
 			.split {
 				display: grid;
-				grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-				gap: 18px;
-				margin-top: 20px;
+				grid-template-columns: repeat(2, minmax(0, 1fr));
+				gap: var(--s4);
 			}
 			@media (max-width: 760px) {
 				.split {
@@ -548,21 +881,24 @@
 				}
 			}
 			.use-card {
-				padding: 22px;
-				border-radius: 18px;
+				display: flex;
+				flex-direction: column;
+				gap: var(--s2);
+				padding: var(--s5);
+				border-radius: var(--r-md);
 				background: var(--surface);
-				border: 1px solid var(--line);
-			}
-			.use-card h3 {
-				margin-bottom: 6px;
+				border: var(--bw) solid var(--line);
 			}
 
-			/* map page */
+			/* =========================================================
+			   Map page
+			   ========================================================= */
 			.map-layout {
 				display: grid;
-				grid-template-columns: 300px minmax(0, 1fr);
-				gap: 18px;
-				margin-top: 18px;
+				grid-template-columns: 320px minmax(0, 1fr);
+				gap: var(--s4);
+				margin-top: var(--s5);
+				align-items: start;
 			}
 			@media (max-width: 900px) {
 				.map-layout {
@@ -570,11 +906,16 @@
 				}
 			}
 			.map-box {
-				background: var(--juniper);
-				border-radius: 20px;
-				overflow: hidden;
 				position: relative;
 				min-height: 520px;
+				background: var(--juniper);
+				border-radius: var(--r-lg);
+				overflow: hidden;
+			}
+			@media (max-width: 600px) {
+				.map-box {
+					min-height: 440px;
+				}
 			}
 			.map-box svg {
 				display: block;
@@ -584,84 +925,133 @@
 			}
 			.map-tools {
 				position: absolute;
-				right: 12px;
-				top: 12px;
+				right: var(--s3);
+				top: var(--s3);
 				display: flex;
 				flex-direction: column;
-				gap: 6px;
+				gap: var(--s2);
 			}
 			.map-tools button {
-				width: 38px;
-				height: 38px;
-				border-radius: 10px;
-				border: 1px solid #3b5c4c;
+				width: var(--ctl-h);
+				height: var(--ctl-h);
+				border-radius: var(--r-sm);
+				border: var(--bw) solid #3b5c4c;
 				background: #173326;
-				color: #eaf2e6;
-				cursor: pointer;
-				font-size: 1.1rem;
+				color: var(--on-dark);
+				font-size: var(--fs-lg);
+				transition: border-color var(--ease);
+			}
+			.map-tools button:hover {
+				border-color: var(--on-dark);
 			}
 			.map-hint {
 				position: absolute;
-				left: 14px;
-				top: 12px;
-				font-size: 0.78rem;
+				left: var(--s3);
+				top: var(--s3);
+				right: calc(var(--ctl-h) + var(--s5));
+				width: fit-content;
+				font-size: var(--fs-xs);
 				color: #9fb6a6;
 				background: rgba(10, 24, 16, 0.6);
-				padding: 4px 10px;
-				border-radius: 8px;
+				padding: var(--s1) var(--s2);
+				border-radius: var(--r-sm);
+			}
+			.filters h3 {
+				margin-bottom: var(--s2);
+			}
+			.filters h3:not(:first-child) {
+				margin-top: var(--s5);
 			}
 			.filters label {
 				display: flex;
 				align-items: center;
-				gap: 10px;
-				padding: 8px 0;
+				gap: var(--s3);
+				padding: var(--s2) 0;
 				cursor: pointer;
 			}
 			.filters input {
+				flex: none;
+				width: var(--icon);
+				height: var(--icon);
+				margin: 0;
 				accent-color: var(--turq);
-				width: 18px;
-				height: 18px;
 			}
 			.tree-pop {
 				position: absolute;
-				left: 14px;
-				right: 14px;
-				bottom: 14px;
+				left: var(--s3);
+				right: var(--s3);
+				bottom: var(--s3);
 				max-width: 360px;
+				display: none;
+				padding: var(--s4);
 				background: var(--surface);
 				color: var(--ink);
-				border-radius: 16px;
-				padding: 16px;
+				border-radius: var(--r-md);
 				box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
-				display: none;
 			}
 			.tree-pop.show {
 				display: block;
 			}
+			.pop-head {
+				display: flex;
+				justify-content: space-between;
+				align-items: flex-start;
+				gap: var(--s2);
+			}
+			.pop-meta {
+				margin: var(--s2) 0;
+			}
+			.pop-actions {
+				margin-top: var(--s3);
+			}
 			.region-list {
 				display: flex;
 				flex-direction: column;
-				gap: 8px;
-				margin-top: 10px;
+				gap: var(--s2);
 			}
 			.region-list button {
+				display: flex;
+				flex-direction: column;
+				gap: var(--s1);
 				text-align: left;
+				padding: var(--s2) var(--s3);
 				background: var(--surface2);
-				border: 1px solid var(--line);
-				border-radius: 12px;
-				padding: 10px 12px;
-				cursor: pointer;
+				border: var(--bw) solid var(--line);
+				border-radius: var(--r-sm);
+				transition: border-color var(--ease);
+			}
+			.region-list button br {
+				display: none;
 			}
 			.region-list button:hover {
 				border-color: var(--turq);
 			}
 
-			/* wizard */
+			/* =========================================================
+			   Plant wizard
+			   ========================================================= */
+			.progress {
+				display: flex;
+				gap: var(--s2);
+				margin-top: var(--s4);
+			}
+			.progress div {
+				flex: 1;
+				height: var(--s1);
+				border-radius: var(--r-sm);
+				background: var(--line);
+			}
+			.progress div.on {
+				background: var(--turq);
+			}
+			.step-count {
+				margin-top: var(--s2);
+			}
 			.wizard {
 				display: grid;
-				grid-template-columns: minmax(0, 1fr) 330px;
-				gap: 22px;
-				margin-top: 20px;
+				grid-template-columns: minmax(0, 1fr) 320px;
+				gap: var(--s5);
+				margin-top: var(--s5);
 				align-items: start;
 			}
 			@media (max-width: 900px) {
@@ -669,160 +1059,191 @@
 					grid-template-columns: 1fr;
 				}
 			}
-			.progress {
-				display: flex;
-				gap: 6px;
-				margin: 18px 0 6px;
-			}
-			.progress div {
-				flex: 1;
-				height: 5px;
-				border-radius: 5px;
-				background: var(--line);
-			}
-			.progress div.on {
-				background: var(--turq);
+			.wizard .lead {
+				margin-top: var(--s2);
 			}
 			.choices {
 				display: grid;
-				grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
-				gap: 12px;
-				margin-top: 16px;
+				grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+				gap: var(--s4);
+				margin-top: var(--s5);
+			}
+			@media (max-width: 600px) {
+				.choices {
+					grid-template-columns: 1fr;
+				}
 			}
 			.choice {
 				position: relative;
-				text-align: left;
-				background: var(--surface);
-				border: 1.5px solid var(--line);
-				border-radius: 16px;
-				padding: 16px;
-				cursor: pointer;
 				display: flex;
 				flex-direction: column;
-				gap: 6px;
+				gap: var(--s2);
+				height: 100%;
+				padding: var(--s4);
+				text-align: left;
+				background: var(--surface);
+				border: var(--bw-ctl) solid var(--line);
+				border-radius: var(--r-md);
+				transition:
+					border-color var(--ease),
+					box-shadow var(--ease);
 			}
-			.choice:hover {
+			.choice > :last-child {
+				/* price / partner / description sits on the card's bottom edge */
+				margin-top: auto;
+			}
+			.choice:hover:not(:disabled) {
 				border-color: color-mix(in srgb, var(--turq) 60%, var(--line));
 			}
 			.choice[aria-pressed='true'] {
 				border-color: var(--turq);
 				box-shadow: 0 0 0 3px var(--turq-soft);
 			}
-			.choice[disabled] {
-				opacity: 0.5;
-				cursor: not-allowed;
+			.choice:disabled {
+				opacity: 0.45;
 			}
-			.choice .meta {
+			.choice-foot {
 				display: flex;
 				justify-content: space-between;
-				gap: 8px;
-				font-size: 0.85rem;
+				align-items: baseline;
+				gap: var(--s2);
+				padding-top: var(--s2);
+				font-size: var(--fs-sm);
 				color: var(--muted);
+			}
+			.price {
+				color: var(--ink);
+				font-weight: var(--fw-semibold);
+				white-space: nowrap;
 			}
 			.choice .latin {
 				font-style: italic;
-				font-size: 0.85rem;
+				font-size: var(--fs-sm);
 				color: var(--muted);
 			}
 			.risk {
-				font-size: 0.78rem;
-				font-weight: 600;
-				padding: 2px 8px;
-				border-radius: 6px;
+				align-self: flex-start;
+				padding: var(--s1) var(--s2);
+				border-radius: var(--r-sm);
+				font-size: var(--fs-xs);
+				font-weight: var(--fw-medium);
+				line-height: 16px;
 				background: var(--sand-soft);
 				color: color-mix(in srgb, var(--sand) 65%, var(--ink));
-				align-self: flex-start;
+			}
+			.pay-head {
+				display: flex;
+				align-items: center;
+				gap: var(--s3);
+			}
+			.pay-mark {
+				flex: none;
+				width: var(--s6);
+				height: var(--s6);
 			}
 			.counter {
 				display: flex;
 				align-items: center;
-				gap: 12px;
-				margin-top: 16px;
+				gap: var(--s3);
 			}
 			.counter button {
-				width: 44px;
-				height: 44px;
-				border-radius: 12px;
-				border: 1.5px solid var(--line);
+				width: var(--ctl-h);
+				height: var(--ctl-h);
+				border-radius: var(--r-sm);
+				border: var(--bw-ctl) solid var(--line);
 				background: var(--surface);
-				font-size: 1.3rem;
-				cursor: pointer;
+				font-size: var(--fs-xl);
+				line-height: 1;
+				transition: border-color var(--ease);
+			}
+			.counter button:hover {
+				border-color: var(--turq);
 			}
 			.counter output {
-				font-family: var(--display);
-				font-size: 1.6rem;
 				min-width: 3ch;
 				text-align: center;
+				font-family: var(--display);
+				font-size: var(--fs-xl);
+				font-variant-numeric: tabular-nums;
 			}
 			.presets {
 				display: flex;
-				gap: 8px;
 				flex-wrap: wrap;
-				margin-top: 10px;
+				gap: var(--s2);
+				margin-top: var(--s3);
 			}
 			.presets button {
-				border: 1px solid var(--line);
+				height: var(--ctl-h-sm);
+				padding: 0 var(--s4);
+				border: var(--bw-ctl) solid var(--line);
+				border-radius: var(--r-sm);
 				background: var(--surface);
-				border-radius: 999px;
-				padding: 6px 14px;
-				cursor: pointer;
+				font-size: var(--fs-sm);
+				transition: border-color var(--ease);
 			}
-			.field {
-				display: flex;
-				flex-direction: column;
-				gap: 6px;
-				margin-top: 14px;
-			}
-			.field input,
-			.field textarea,
-			.field select {
-				background: var(--surface);
-				border: 1.5px solid var(--line);
-				border-radius: 12px;
-				padding: 11px 13px;
-				width: 100%;
-			}
-			.field input:focus,
-			.field textarea:focus {
+			.presets button:hover {
 				border-color: var(--turq);
-				outline: none;
 			}
 			.summary {
 				position: sticky;
-				top: 90px;
+				top: calc(var(--header-h) + var(--s4));
 			}
 			.summary dl {
 				display: grid;
-				grid-template-columns: auto 1fr;
-				gap: 8px 12px;
-				margin: 14px 0;
+				grid-template-columns: auto minmax(0, 1fr);
+				gap: var(--s2) var(--s3);
+				margin: var(--s4) 0;
 			}
 			.summary dt {
+				font-size: var(--fs-sm);
 				color: var(--muted);
-				font-size: 0.9rem;
 			}
 			.summary dd {
 				margin: 0;
 				text-align: right;
-				font-weight: 500;
+				font-weight: var(--fw-medium);
+				overflow-wrap: break-word;
 			}
 			.total {
 				display: flex;
 				justify-content: space-between;
 				align-items: baseline;
-				border-top: 1px dashed var(--line);
-				padding-top: 14px;
-				margin-top: 6px;
+				gap: var(--s3);
+				padding-top: var(--s4);
+				border-top: var(--bw) dashed var(--line);
 			}
 			.total b {
 				font-family: var(--display);
-				font-size: 1.35rem;
+				font-size: var(--fs-xl);
+				font-variant-numeric: tabular-nums;
+				white-space: nowrap;
 			}
 			.wiz-nav {
 				display: flex;
+				flex-wrap: wrap;
 				justify-content: space-between;
-				gap: 12px;
-				margin-top: 24px;
+				gap: var(--s3);
+				margin-top: var(--s5);
+			}
+			@media (max-width: 600px) {
+				/* buttons grow to full rows instead of breaking their labels */
+				.wiz-nav .btn {
+					flex: 1 1 auto;
+				}
+				.wiz-nav .invisible {
+					display: none;
+				}
+			}
+			.lbl-short {
+				display: none;
+			}
+			@media (max-width: 480px) {
+				.lbl-full {
+					display: none;
+				}
+				.lbl-short {
+					display: inline;
+				}
 			}
 			.wiz-in-fwd {
 				animation: wizInF 0.26s ease-out;
@@ -838,15 +1259,15 @@
 					transform 0.14s ease-in;
 			}
 			.wiz-out-fwd {
-				transform: translateX(-12px);
+				transform: translateX(calc(-1 * var(--s3)));
 			}
 			.wiz-out-back {
-				transform: translateX(12px);
+				transform: translateX(var(--s3));
 			}
 			@keyframes wizInF {
 				from {
 					opacity: 0;
-					transform: translateX(18px);
+					transform: translateX(var(--s4));
 				}
 				to {
 					opacity: 1;
@@ -856,30 +1277,33 @@
 			@keyframes wizInB {
 				from {
 					opacity: 0;
-					transform: translateX(-18px);
+					transform: translateX(calc(-1 * var(--s4)));
 				}
 				to {
 					opacity: 1;
 					transform: none;
 				}
 			}
-			.pay-head {
-				display: flex;
-				align-items: center;
-				gap: 10px;
-			}
-			.pay-mark {
-				flex: none;
-				width: 32px;
-				height: 32px;
-			}
 
-			/* passport */
+			/* =========================================================
+			   Passport
+			   ========================================================= */
+			.back {
+				display: inline-flex;
+				align-items: center;
+				gap: var(--s2);
+				margin-bottom: var(--s3);
+				font-size: var(--fs-sm);
+				color: var(--muted);
+				text-decoration: none;
+			}
+			.back:hover {
+				color: var(--ink);
+			}
 			.passport {
 				display: grid;
-				grid-template-columns: minmax(0, 1fr) 300px;
-				gap: 22px;
-				margin-top: 20px;
+				grid-template-columns: minmax(0, 1fr) 320px;
+				gap: var(--s5);
 				align-items: start;
 			}
 			@media (max-width: 900px) {
@@ -887,142 +1311,171 @@
 					grid-template-columns: 1fr;
 				}
 			}
+			.dedication {
+				margin: var(--s4) 0 0;
+				padding: var(--s4) var(--s5);
+				background: var(--turq-soft);
+				border-radius: var(--r-md);
+				font-size: var(--fs-lg);
+			}
 			.facts {
 				display: grid;
-				grid-template-columns: repeat(2, 1fr);
-				gap: 1px;
+				grid-template-columns: repeat(2, minmax(0, 1fr));
+				gap: var(--bw);
+				margin-top: var(--s5);
 				background: var(--line);
-				border-radius: 14px;
+				border: var(--bw) solid var(--line);
+				border-radius: var(--r-md);
 				overflow: hidden;
-				border: 1px solid var(--line);
-				margin-top: 18px;
 			}
 			.facts div {
 				background: var(--surface);
-				padding: 12px 14px;
+				padding: var(--s3) var(--s4);
+				overflow-wrap: break-word;
+				min-width: 0;
 			}
 			.facts span {
 				display: block;
-				font-size: 0.8rem;
+				font-size: var(--fs-xs);
 				color: var(--muted);
+			}
+			@media (max-width: 420px) {
+				.facts {
+					grid-template-columns: 1fr;
+				}
 			}
 			.timeline {
 				display: grid;
-				grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-				gap: 12px;
-				margin-top: 14px;
+				grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+				gap: var(--s4);
 			}
 			.shot {
-				border-radius: 14px;
+				margin: 0;
+				border-radius: var(--r-md);
 				overflow: hidden;
 				background: var(--surface2);
-				border: 1px solid var(--line);
+				border: var(--bw) solid var(--line);
 			}
 			.shot .ph {
-				aspect-ratio: 4/3;
 				display: block;
 				width: 100%;
+				aspect-ratio: 4/3;
 				object-fit: cover;
 				background: #cfd8c7;
 			}
 			.shot p {
-				padding: 8px 10px;
-				font-size: 0.82rem;
+				padding: var(--s2) var(--s3);
+				font-size: var(--fs-xs);
+				color: var(--muted);
 			}
-			.qr-card {
-				text-align: center;
+			.checks {
+				display: flex;
+				flex-direction: column;
+				gap: var(--s2);
+			}
+			.checks > div {
+				display: flex;
+				align-items: center;
+				gap: var(--s3);
+				padding: var(--s3);
+				border-radius: var(--r-sm);
+				background: var(--surface2);
+			}
+			.checks svg {
+				flex: none;
+				width: var(--icon);
+				height: var(--icon);
+			}
+			.mini-map {
+				height: 200px;
+				margin-top: var(--s5);
+				border-radius: var(--r-md);
+				overflow: hidden;
+				background: var(--juniper);
 			}
 			.qr-card .qr {
+				width: fit-content;
+				margin: var(--s4) auto;
+				padding: var(--s3);
 				background: #fff;
-				border-radius: 14px;
-				padding: 12px;
-				display: inline-block;
-				margin: 10px 0;
+				border-radius: var(--r-md);
 			}
 			.qr-card .qr svg {
 				display: block;
 				width: 200px;
 				height: 200px;
 			}
+			.qr-card h3 + p {
+				margin-top: var(--s1);
+			}
 			.hash {
+				padding: var(--s3);
 				font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
-				font-size: 0.72rem;
+				font-size: var(--fs-xs);
 				word-break: break-all;
-				background: var(--surface2);
-				padding: 10px;
-				border-radius: 10px;
-				border: 1px solid var(--line);
 				text-align: left;
-			}
-			.checks {
-				display: flex;
-				flex-direction: column;
-				gap: 10px;
-				margin-top: 14px;
-			}
-			.checks div {
-				display: flex;
-				gap: 12px;
-				align-items: flex-start;
-				padding: 12px;
-				border-radius: 12px;
 				background: var(--surface2);
-			}
-			.checks svg {
-				flex: none;
-				width: 22px;
-				height: 22px;
-			}
-			.mini-map {
-				height: 200px;
-				border-radius: 14px;
-				overflow: hidden;
-				background: var(--juniper);
-				margin-top: 14px;
+				border: var(--bw) solid var(--line);
+				border-radius: var(--r-sm);
 			}
 
-			/* lists / tables */
+			/* =========================================================
+			   Lists & tables
+			   ========================================================= */
 			.tabs {
 				display: flex;
-				gap: 6px;
 				flex-wrap: wrap;
-				margin-top: 18px;
+				gap: var(--s2);
+				margin-top: var(--s5);
 			}
 			.tabs button {
-				border: 1.5px solid var(--line);
+				height: var(--ctl-h-sm);
+				padding: 0 var(--s4);
+				border: var(--bw-ctl) solid var(--line);
+				border-radius: var(--r-sm);
 				background: var(--surface);
-				padding: 8px 16px;
-				border-radius: 999px;
-				cursor: pointer;
-				font-weight: 500;
+				font-size: var(--fs-sm);
+				font-weight: var(--fw-medium);
+				transition:
+					border-color var(--ease),
+					background var(--ease);
+			}
+			.tabs button:hover {
+				border-color: var(--turq);
 			}
 			.tabs button[aria-selected='true'] {
 				background: var(--juniper);
 				border-color: var(--juniper);
-				color: #eaf2e6;
+				color: var(--on-dark);
 			}
 			.table-wrap {
+				margin-top: var(--s5);
 				overflow-x: auto;
-				margin-top: 16px;
-				border: 1px solid var(--line);
-				border-radius: 16px;
 				background: var(--surface);
+				border: var(--bw) solid var(--line);
+				border-radius: var(--r-md);
+			}
+			.tabs + .table-wrap {
+				margin-top: var(--s4);
 			}
 			table {
 				width: 100%;
-				border-collapse: collapse;
 				min-width: 560px;
+				border-collapse: collapse;
+				font-variant-numeric: tabular-nums;
 			}
 			th,
 			td {
-				padding: 12px 16px;
+				padding: var(--s3) var(--s4);
 				text-align: left;
-				border-bottom: 1px solid var(--line);
+				vertical-align: middle;
+				border-bottom: var(--bw) solid var(--line);
 			}
 			th {
-				font-size: 0.82rem;
+				font-size: var(--fs-xs);
+				font-weight: var(--fw-medium);
 				color: var(--muted);
-				font-weight: 600;
+				white-space: nowrap;
 			}
 			tr:last-child td {
 				border-bottom: 0;
@@ -1030,151 +1483,221 @@
 			td.num,
 			th.num {
 				text-align: right;
-				font-variant-numeric: tabular-nums;
 			}
 			.rank {
+				width: var(--s7);
 				font-family: var(--display);
-				font-weight: 600;
+				font-weight: var(--fw-semibold);
 				color: var(--muted);
 			}
 			tr.top1 .rank {
 				color: var(--sand);
 			}
+			.rate-cell {
+				display: flex;
+				align-items: center;
+				gap: var(--s3);
+			}
+			.rate-cell .bar {
+				flex: 1;
+			}
+			.rate-cell span {
+				min-width: 4ch;
+				text-align: right;
+			}
 			.bar {
-				height: 6px;
-				border-radius: 6px;
+				min-width: 80px;
+				height: var(--s2);
+				border-radius: var(--r-sm);
 				background: var(--line);
 				overflow: hidden;
-				min-width: 80px;
 			}
 			.bar i {
 				display: block;
 				height: 100%;
 				background: var(--leaf);
 			}
-
 			.order-list {
 				display: flex;
 				flex-direction: column;
-				gap: 12px;
-				margin-top: 18px;
+				gap: var(--s3);
+				margin-top: var(--s5);
+			}
+			.order,
+			.review {
+				display: grid;
+				align-items: center;
+				gap: var(--s4);
+				padding: var(--s4) var(--s5);
+				background: var(--surface);
+				border: var(--bw) solid var(--line);
+				border-radius: var(--r-md);
 			}
 			.order {
-				display: grid;
 				grid-template-columns: minmax(0, 1fr) auto;
-				gap: 14px;
-				align-items: center;
-				background: var(--surface);
-				border: 1px solid var(--line);
-				border-radius: 16px;
-				padding: 16px 18px;
 			}
-			.order h3 {
-				font-size: 1rem;
+			.order h3,
+			.review h3 {
+				font-size: var(--fs-md);
 			}
-			.order .acts {
+			.order-status {
+				margin-top: var(--s2);
+			}
+			.acts {
 				display: flex;
-				gap: 8px;
 				flex-wrap: wrap;
+				align-items: center;
 				justify-content: flex-end;
+				gap: var(--s2);
 			}
-			@media (max-width: 600px) {
+			.acts-hint {
+				flex-basis: 100%;
+				text-align: right;
+			}
+			.review {
+				grid-template-columns: 96px minmax(0, 1fr) auto;
+			}
+			.review .ph {
+				display: block;
+				width: 96px;
+				border-radius: var(--r-sm);
+			}
+			.review .why {
+				margin-top: var(--s2);
+				font-size: var(--fs-sm);
+			}
+			@media (max-width: 640px) {
 				.order {
 					grid-template-columns: 1fr;
 				}
-				.order .acts {
+				.review {
+					grid-template-columns: var(--s8) minmax(0, 1fr);
+					align-items: start;
+				}
+				.review .ph {
+					width: var(--s8);
+				}
+				.review .acts {
+					grid-column: 1 / -1;
+				}
+				.acts {
 					justify-content: flex-start;
 				}
-			}
-			.empty {
-				padding: 40px 24px;
-				text-align: center;
-				border: 1.5px dashed var(--line);
-				border-radius: 18px;
-				margin-top: 18px;
-			}
-			.empty p {
-				margin: 8px auto 18px;
-				max-width: 44ch;
-			}
-
-			.kpis {
-				display: grid;
-				grid-template-columns: repeat(3, 1fr);
-				gap: 12px;
-				margin-top: 18px;
-			}
-			.kpis .panel b {
-				font-family: var(--display);
-				font-size: 1.4rem;
-				display: block;
+				.acts .btn {
+					flex: 1 1 auto;
+				}
+				.acts-hint {
+					text-align: left;
+				}
 			}
 			@media (max-width: 600px) {
-				.kpis {
-					grid-template-columns: 1fr;
+				.order,
+				.review {
+					padding: var(--s4);
 				}
 			}
 
-			/* modal & toast */
+			/* =========================================================
+			   Dialog, toast, upload
+			   ========================================================= */
 			dialog {
-				border: 0;
-				border-radius: 20px;
-				padding: 0;
+				width: calc(100% - 2 * var(--s4));
 				max-width: 520px;
-				width: calc(100% - 32px);
+				max-height: calc(100dvh - 2 * var(--s4));
+				padding: 0;
+				border: 0;
+				border-radius: var(--r-md);
 				background: var(--surface);
 				color: var(--ink);
+			}
+			dialog.wide {
+				max-width: 820px;
 			}
 			dialog::backdrop {
 				background: rgba(8, 18, 12, 0.55);
 			}
 			.modal-in {
-				padding: 24px;
+				padding: var(--s5);
 			}
 			.modal-in .row {
 				display: flex;
-				gap: 10px;
+				flex-wrap: wrap;
 				justify-content: flex-end;
-				margin-top: 20px;
+				gap: var(--s3);
+				margin-top: var(--s5);
+			}
+			.modal-sub {
+				margin-top: var(--s1);
+			}
+			@media (max-width: 600px) {
+				.modal-in {
+					padding: var(--s4);
+				}
+				.modal-in .row .btn {
+					flex: 1 1 auto;
+				}
 			}
 			.gps {
 				display: flex;
-				gap: 10px;
 				align-items: center;
-				padding: 12px;
-				border-radius: 12px;
+				gap: var(--s3);
+				margin-top: var(--s4);
+				padding: var(--s3);
+				border-radius: var(--r-sm);
 				background: var(--surface2);
-				margin-top: 12px;
-				font-size: 0.9rem;
+				font-size: var(--fs-sm);
+			}
+			.gps svg {
+				flex: none;
+				width: var(--icon);
+				height: var(--icon);
 			}
 			.upload {
 				display: block;
-				border: 1.5px dashed var(--line);
-				border-radius: 14px;
-				padding: 18px;
+				margin-top: var(--s3);
+				padding: var(--s5);
 				text-align: center;
+				border: var(--bw-ctl) dashed var(--line);
+				border-radius: var(--r-md);
 				cursor: pointer;
-				margin-top: 12px;
+				transition: border-color var(--ease);
+			}
+			.upload:hover {
+				border-color: var(--turq);
 			}
 			.upload img {
 				max-height: 160px;
-				border-radius: 10px;
-				margin-top: 8px;
+				margin-top: var(--s2);
+				border-radius: var(--r-sm);
+			}
+			.share-opts {
+				display: grid;
+				grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+				gap: var(--s2);
+				margin-top: var(--s4);
+			}
+			.mark {
+				flex: none;
+				width: var(--icon);
+				height: var(--icon);
 			}
 			.toast {
 				position: fixed;
 				left: 50%;
-				bottom: calc(24px + env(safe-area-inset-bottom, 0px));
-				transform: translateX(-50%) translateY(20px);
+				bottom: calc(var(--s5) + env(safe-area-inset-bottom, 0px));
+				z-index: 50;
+				max-width: calc(100% - 2 * var(--s4));
+				padding: var(--s3) var(--s4);
+				border-radius: var(--r-sm);
 				background: var(--juniper);
-				color: #eaf2e6;
-				padding: 12px 18px;
-				border-radius: 12px;
+				color: var(--on-dark);
+				font-size: var(--fs-sm);
 				opacity: 0;
 				pointer-events: none;
-				transition: 0.25s;
-				z-index: 50;
-				max-width: calc(100% - 32px);
+				transform: translateX(-50%) translateY(var(--s5));
+				transition:
+					opacity 0.25s,
+					transform 0.25s;
 			}
 			.toast.show {
 				opacity: 1;
@@ -1182,85 +1705,14 @@
 			}
 			@media (max-width: 860px) {
 				.toast {
-					bottom: calc(90px + env(safe-area-inset-bottom, 0px));
+					/* sits above the bottom navigation, never on top of it */
+					bottom: calc(var(--bnav-h) + var(--s4) + env(safe-area-inset-bottom, 0px));
 				}
 			}
-			.back {
-				display: inline-flex;
-				gap: 6px;
-				align-items: center;
-				color: var(--muted);
-				text-decoration: none;
-				font-size: 0.9rem;
-				margin-bottom: 10px;
-			}
-			.note {
-				font-size: 0.82rem;
-				color: var(--muted);
-				border-left: 3px solid var(--sand);
-				padding: 6px 12px;
-				margin-top: 14px;
-				background: var(--surface2);
-				border-radius: 0 8px 8px 0;
-			}
-			dialog.wide {
-				max-width: 820px;
-			}
-			.review {
-				display: grid;
-				grid-template-columns: 96px minmax(0, 1fr) auto;
-				gap: 16px;
-				align-items: center;
-				background: var(--surface);
-				border: 1px solid var(--line);
-				border-radius: 16px;
-				padding: 14px 18px;
-			}
-			.review .ph {
-				width: 96px;
-				border-radius: 10px;
-				display: block;
-			}
-			.review h3 {
-				font-size: 1rem;
-			}
-			.review .why {
-				font-size: 0.875rem;
-				margin-top: 6px;
-			}
-			.review .acts {
-				display: flex;
-				gap: 8px;
-				flex-wrap: wrap;
-				justify-content: flex-end;
-			}
-			@media (max-width: 640px) {
-				.review {
-					grid-template-columns: 72px minmax(0, 1fr);
-				}
-				.review .ph {
-					width: 72px;
-				}
-				.review .acts {
-					grid-column: 1 / -1;
-					justify-content: flex-start;
-				}
-			}
-			.share-opts {
-				display: grid;
-				grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-				gap: 10px;
-				margin-top: 16px;
-			}
-			.share-opts .btn {
-				justify-content: flex-start;
-			}
-			.mark {
-				flex: none;
-				width: 22px;
-				height: 22px;
-			}
-			/* certificate: always light "paper", independent of theme */
+
+			/* =========================================================
+			   Certificate — always light "paper", independent of theme
+			   ========================================================= */
 			.cert {
 				--ink: #1c2b22;
 				--muted: #5b6b60;
@@ -1268,84 +1720,89 @@
 				--surface2: #f6f8f3;
 				background: #fff;
 				color: var(--ink);
-				border: 1px solid var(--line);
-				border-radius: 18px;
+				border: var(--bw) solid var(--line);
+				border-radius: var(--r-md);
 				overflow: hidden;
 			}
 			.cert-top {
-				background: #173326;
-				color: #eaf2e6;
 				display: flex;
 				justify-content: space-between;
 				align-items: center;
-				gap: 12px;
-				padding: 14px 24px;
-				font-size: 0.85rem;
+				gap: var(--s3);
+				padding: var(--s3) var(--s5);
+				background: #173326;
+				color: var(--on-dark);
+				font-size: var(--fs-sm);
 			}
 			.cert-brand {
 				display: flex;
 				align-items: center;
-				gap: 8px;
+				gap: var(--s2);
 				font-family: var(--display);
-				font-weight: 700;
-				font-size: 1rem;
+				font-weight: var(--fw-semibold);
+				font-size: var(--fs-md);
 			}
 			.cert-brand svg {
-				width: 26px;
-				height: 26px;
+				width: var(--s5);
+				height: var(--s5);
 			}
 			.cert-body {
-				padding: 24px 28px 26px;
+				padding: var(--s5) var(--s6) var(--s6);
 			}
 			.cert-kicker {
+				font-size: var(--fs-sm);
 				color: var(--muted);
-				font-size: 0.9rem;
 			}
 			.cert-title {
-				font-size: clamp(1.6rem, 3.4vw, 2.2rem);
-				margin-top: 6px;
+				margin-top: var(--s2);
+				font-size: var(--fs-2xl);
 			}
 			.cert-latin {
+				margin-top: var(--s1);
 				color: var(--muted);
-				margin-top: 2px;
 			}
 			.cert-owner {
-				margin-top: 14px;
-				font-size: 1.05rem;
+				margin-top: var(--s4);
+				font-size: var(--fs-lg);
 			}
 			.cert blockquote {
-				margin: 12px 0 0;
-				padding: 10px 14px;
+				margin: var(--s3) 0 0;
+				padding: var(--s2) var(--s4);
 				border-left: 3px solid #16807f;
 				background: var(--surface2);
-				border-radius: 0 10px 10px 0;
+				border-radius: 0 var(--r-sm) var(--r-sm) 0;
 			}
 			.cert-facts {
 				display: grid;
 				grid-template-columns: repeat(2, minmax(0, 1fr));
-				gap: 10px 24px;
-				margin: 20px 0 0;
+				gap: var(--s3) var(--s5);
+				margin: var(--s5) 0 0;
 			}
 			.cert-facts div {
-				border-top: 1px solid var(--line);
-				padding-top: 8px;
+				padding-top: var(--s2);
+				border-top: var(--bw) solid var(--line);
+				min-width: 0;
 			}
 			.cert-facts dt {
-				font-size: 0.78rem;
+				font-size: var(--fs-xs);
 				color: var(--muted);
 			}
 			.cert-facts dd {
 				margin: 0;
-				font-weight: 500;
+				font-weight: var(--fw-medium);
+				overflow-wrap: break-word;
 			}
 			.cert-foot {
 				display: grid;
 				grid-template-columns: 120px minmax(0, 1fr);
-				gap: 18px;
 				align-items: center;
-				margin-top: 22px;
-				padding-top: 18px;
-				border-top: 1px dashed var(--line);
+				gap: var(--s4);
+				margin-top: var(--s5);
+				padding-top: var(--s4);
+				border-top: var(--bw) dashed var(--line);
+			}
+			.cert-foot .hash {
+				margin-top: var(--s2);
 			}
 			.cert-qr svg {
 				display: block;
@@ -1353,11 +1810,20 @@
 				height: 120px;
 			}
 			.cert-note {
-				font-size: 0.78rem;
+				margin-top: var(--s4);
+				font-size: var(--fs-xs);
 				color: var(--muted);
-				margin-top: 14px;
+			}
+			.cert-foot .cert-note {
+				margin-top: var(--s2);
 			}
 			@media (max-width: 600px) {
+				.cert-body {
+					padding: var(--s4);
+				}
+				.cert-title {
+					font-size: var(--fs-xl);
+				}
 				.cert-facts,
 				.cert-foot {
 					grid-template-columns: 1fr;
@@ -1386,29 +1852,25 @@
 					print-color-adjust: exact;
 				}
 			}
-			@media (max-width: 1320px) {
-				.demo-tag {
-					display: none;
-				}
+
+			/* =========================================================
+			   Rhythm overrides — keep last so they win over block margins
+			   ========================================================= */
+			.page-head + * {
+				margin-top: var(--s5);
 			}
+			.section-title + *,
+			.section-head + * {
+				margin-top: 0;
+			}
+			td.nowrap {
+				white-space: nowrap;
+			}
+
 			@media (prefers-reduced-motion: reduce) {
 				* {
 					transition: none !important;
 					animation: none !important;
-				}
-			}
-			.pulse {
-				animation: pulse 1.6s ease-out 1;
-			}
-			@keyframes pulse {
-				0% {
-					opacity: 0;
-				}
-				40% {
-					opacity: 1;
-				}
-				100% {
-					opacity: 1;
 				}
 			}
 		</style>
@@ -30638,6 +31100,7 @@
 				uz: {
 					'brand.home': 'EcoRoots bosh sahifa',
 					'demo.tag': 'Prototip · demo maʼlumotlar',
+					'demo.short': 'Demo',
 					'lang.label': 'Til',
 					'theme.toDark': 'Qorongʻi rejimga oʻtish',
 					'theme.toLight': 'Yorugʻ rejimga oʻtish',
@@ -30689,6 +31152,7 @@
 				ru: {
 					'brand.home': 'EcoRoots — главная',
 					'demo.tag': 'Прототип · демо-данные',
+					'demo.short': 'Демо',
 					'lang.label': 'Язык',
 					'theme.toDark': 'Включить тёмную тему',
 					'theme.toLight': 'Включить светлую тему',
@@ -30740,6 +31204,7 @@
 				en: {
 					'brand.home': 'EcoRoots home',
 					'demo.tag': 'Prototype · demo data',
+					'demo.short': 'Demo',
 					'lang.label': 'Language',
 					'theme.toDark': 'Switch to dark mode',
 					'theme.toLight': 'Switch to light mode',
@@ -30850,6 +31315,10 @@
 				'org.col.planted': 'Ekilgan',
 				'org.col.status': 'Holat',
 				'org.empty': 'Hali daraxt ekilmagan',
+				'org.empty.d': 'Tashkilot nomidan ekilgan daraxtlar shu yerda koʻrinadi.',
+				'title.home': 'Daraxtni masofadan eking',
+				'title.tree': 'Daraxt pasporti',
+				'title.org': 'Tashkilot kabineti',
 				'org.note':
 					'Hisobot CSV formatida, Excelʼda ochiladi. CO₂ qiymatlari tur boʻyicha oʻrtacha koʻrsatkichdan hisoblangan taxminiy qiymat.',
 				'csv.latin': 'Lotincha nomi',
@@ -30876,6 +31345,7 @@
 					'CO₂ qiymati tur boʻyicha oʻrtacha koʻrsatkichdan hisoblangan taxminiy qiymat. Berilgan sana: {date}.',
 				'cert.print': 'Chop etish yoki PDF saqlash',
 				'share.btn': 'Qabul qiluvchiga havolani yuborish',
+				'share.btn.short': 'Havolani yuborish',
 				'share.later': 'Havolani daraxt ekilgandan keyin yuborish mumkin',
 				'share.title': 'Havolani yuborish',
 				'share.lead': '{name} uchun sovgʻa: {what}. Qabul qiluvchi havola orqali daraxt pasportini ochadi.',
@@ -30885,6 +31355,16 @@
 				'share.copied': 'Havola nusxalandi',
 				'share.more': 'Boshqa ilova',
 				'share.note': 'Prototipda havola lokal fayl manzili, u faqat shu kompyuterda ochiladi.',
+			});
+			Object.assign(I18N.ru, {
+				'title.home': 'Сажайте деревья удалённо',
+				'title.tree': 'Паспорт дерева',
+				'title.org': 'Кабинет организации',
+			});
+			Object.assign(I18N.en, {
+				'title.home': 'Plant trees remotely',
+				'title.tree': 'Tree passport',
+				'title.org': 'Organization dashboard',
 			});
 			const LOCALE = { uz: 'ru-RU', ru: 'ru-RU', en: 'en-US' }; // uz uses space thousands + comma decimals, same as ru-RU
 			let LANG = ['uz', 'ru', 'en'].includes(store.get('lang')) ? store.get('lang') : 'uz';
@@ -30900,7 +31380,9 @@
 			function applyChrome() {
 				document.documentElement.lang = LANG;
 				$('#brand').setAttribute('aria-label', tr('brand.home'));
-				$('#demoTag').textContent = tr('demo.tag');
+				$('#demoTag').textContent = tr('demo.short');
+				$('#demoTag').title = tr('demo.tag');
+				$('#demoTag').setAttribute('aria-label', tr('demo.tag'));
 				$('#langSwitch').setAttribute('aria-label', tr('lang.label'));
 				document.querySelectorAll('[data-lang]').forEach(b => b.setAttribute('aria-pressed', b.dataset.lang === LANG));
 				renderThemeBtn();
@@ -31482,7 +31964,8 @@
 			];
 			function renderNav(active) {
 				$('#nav').innerHTML = NAV.map(
-					([h, k]) => `<a href="${h}" ${active === h ? 'aria-current="page"' : ''}>${tr(k)}</a>`,
+					([h, k]) =>
+						`<a href="${h}" ${active === h ? 'aria-current="page"' : ''}><span class="nav-full">${tr(k)}</span><span class="nav-short" aria-hidden="true">${tr(k + '.short')}</span></a>`,
 				).join('');
 				$('#bnav').innerHTML = NAV.map(
 					([h, k, i]) =>
@@ -31516,8 +31999,8 @@
       </div>
     </div>
     <div class="hero-map">
-      <div id="heroMap" style="position:absolute;inset:0"></div>
-      <div class="hero-legend"><span class="lg"><i style="background:#7ED281"></i>${tr('home.legend.trees')}</span><span class="lg"><i style="background:#D9B25E"></i>${tr('home.legend.risk')}</span></div>
+      <div id="heroMap" class="map-canvas"></div>
+      <div class="hero-legend"><span class="lg"><i class="lg-tree"></i>${tr('home.legend.trees')}</span><span class="lg"><i class="lg-risk"></i>${tr('home.legend.risk')}</span></div>
     </div>
   </section>
   <div class="stats" id="stats">
@@ -31527,7 +32010,7 @@
     <div class="stat"><b data-count="${t.partners}">${t.partners}</b><span>${tr('home.stat.partners')}</span></div>
   </div>
   <section>
-    <h2>${tr('home.how')}</h2>
+    <h2 class="section-title">${tr('home.how')}</h2>
     <div class="steps">${[1, 2, 3, 4]
 			.map(
 				i => `
@@ -31537,7 +32020,7 @@
     </div>
   </section>
   <section class="section">
-    <h2>${tr('home.who')}</h2>
+    <h2 class="section-title">${tr('home.who')}</h2>
     <div class="split">${[1, 2, 3, 4]
 			.map(
 				i => `
@@ -31553,7 +32036,7 @@
 			function pageMap() {
 				const f = store.get('mapFilters', { status: { alive: true, check: true }, risk: true, mineOnly: false });
 				$('#app').innerHTML = `
-  <div class="section-head"><div><h2>Global xarita</h2><p class="muted">Ekilgan daraxtlar va choʻllanish xavfi yuqori hududlar</p></div></div>
+  <div class="page-head"><h2>Global xarita</h2><p class="lead">Ekilgan daraxtlar va choʻllanish xavfi yuqori hududlar</p></div>
   <div class="map-layout">
     <aside class="panel filters">
       <h3>Koʻrsatish</h3>
@@ -31561,12 +32044,12 @@
       <label><input type="checkbox" data-f="check" ${f.status.check ? 'checked' : ''}> Tekshiruvdagi daraxtlar</label>
       <label><input type="checkbox" data-f="risk" ${f.risk ? 'checked' : ''}> Choʻllanish xavfi qatlami</label>
       <label><input type="checkbox" data-f="mine" ${f.mineOnly ? 'checked' : ''}> Faqat mening daraxtlarim</label>
-      <h3 style="margin-top:18px">Hududlar</h3>
-      <div class="region-list">${REGIONS.map(r => `<button data-r="${r.id}"><b>${r.name}</b><br><span class="small muted">${r.active ? `${TREES.filter(t => t.region === r.id).length} ta daraxt · xavf: ${r.risk}` : 'Tez orada'}</span></button>`).join('')}</div>
+      <h3>Hududlar</h3>
+      <div class="region-list">${REGIONS.map(r => `<button data-r="${r.id}"><b>${r.name}</b><br><span class="subtle">${r.active ? `${TREES.filter(t => t.region === r.id).length} ta daraxt · xavf: ${r.risk}` : 'Tez orada'}</span></button>`).join('')}</div>
       <p class="note">Choʻllanish qatlami prototipda taxminiy. Toʻliq versiyada UNCCD, ESA va NASA ochiq maʼlumotlaridan olinadi.</p>
     </aside>
     <div class="map-box" id="bigMap">
-      <div id="mapCanvas" style="position:absolute;inset:0"></div>
+      <div id="mapCanvas" class="map-canvas"></div>
       <div class="map-hint">Kattalashtirish uchun aylantiring yoki chimding</div>
       <div class="map-tools"><button id="zin" aria-label="Kattalashtirish">+</button><button id="zout" aria-label="Kichraytirish">−</button><button id="zuz" aria-label="Oʻzbekistonga yaqinlashish" title="Oʻzbekiston">UZ</button><button id="zreset" aria-label="Butun dunyo" title="Dunyo">⌂</button></div>
       <div class="tree-pop" id="pop"></div>
@@ -31582,9 +32065,9 @@
 						onTree: t => {
 							const s = speciesOf(t.species);
 							$('#pop').innerHTML =
-								`<div style="display:flex;justify-content:space-between;gap:8px;align-items:start"><div><h3>${s.name}</h3><p class="small muted">${t.id}</p></div><button class="btn btn-ghost" style="padding:4px 10px" id="popx" aria-label="Yopish">✕</button></div>
-      <p class="small" style="margin:8px 0">${esc(t.owner)} · ${dateUz(t.planted)}</p>${statusPill(t.status)}
-      <div style="margin-top:12px"><a class="btn btn-primary" href="#/tree/${t.id}">Pasportni ochish</a></div>`;
+								`<div class="pop-head"><div><h3>${s.name}</h3><p class="subtle">${t.id}</p></div><button class="btn btn-ghost btn-sm btn-icon" id="popx" aria-label="Yopish">✕</button></div>
+      <p class="small pop-meta">${esc(t.owner)} · ${dateUz(t.planted)}</p>${statusPill(t.status)}
+      <div class="pop-actions"><a class="btn btn-primary" href="#/tree/${t.id}">Pasportni ochish</a></div>`;
 							$('#pop').classList.add('show');
 							$('#popx').onclick = () => $('#pop').classList.remove('show');
 						},
@@ -31620,8 +32103,8 @@
 
 			function openSoon(r) {
 				openModal(`<h3>${r.name}</h3>
-  <p style="margin-top:10px">${tr('soon.body')}</p>
-  <p class="small muted" style="margin-top:6px">${tr('soon.hint')}</p>
+  <p class="mt-3">${tr('soon.body')}</p>
+  <p class="subtle mt-2">${tr('soon.hint')}</p>
   <div class="row"><button class="btn btn-ghost" data-close>${tr('common.close')}</button><a class="btn btn-primary" href="#/plant" data-close>${tr('soon.plant')}</a></div>`);
 			}
 
@@ -31662,22 +32145,22 @@
 				const total = s ? s.price * W.count : 0;
 				let body = '';
 				if (W.step === 0) {
-					body = `<h2>Qayerda ekamiz?</h2><p class="muted">Pilot bosqichda Oʻzbekistondagi 4 hudud ochiq.</p>
+					body = `<h2>Qayerda ekamiz?</h2><p class="lead">Pilot bosqichda Oʻzbekistondagi 4 hudud ochiq.</p>
     <div class="choices">${REGIONS.map(
 			x => `<button class="choice" data-region="${x.id}" aria-pressed="${W.region === x.id}" ${x.active ? '' : 'disabled'}>
-      <span class="risk">Choʻllanish xavfi: ${x.risk}</span><h3>${x.name}</h3><span class="small muted">${x.active ? x.partner : 'Xalqaro bosqichda ochiladi'}</span></button>`,
+      <span class="risk">Choʻllanish xavfi: ${x.risk}</span><h3>${x.name}</h3><span class="subtle">${x.active ? x.partner : 'Xalqaro bosqichda ochiladi'}</span></button>`,
 		).join('')}</div>`;
 				} else if (W.step === 1) {
-					body = `<h2>Qaysi daraxt?</h2><p class="muted">${r.name} iqlimiga mos turlar. Narx ichida koʻchat, ekish va 2 yil parvarish bor.</p>
+					body = `<h2>Qaysi daraxt?</h2><p class="lead">${r.name} iqlimiga mos turlar. Narx ichida koʻchat, ekish va 2 yil parvarish bor.</p>
     <div class="choices">${r.species
 			.map(id => {
 				const x = speciesOf(id);
 				return `<button class="choice" data-species="${x.id}" aria-pressed="${W.species === x.id}">
       <h3>${x.name}</h3><span class="latin">${x.latin}</span><span class="small">${x.note}</span>
-      <span class="meta"><span>≈${x.co2} kg CO₂/yil</span><b style="color:var(--ink)">${som(x.price)}</b></span></button>`;
+      <span class="choice-foot"><span>≈${x.co2} kg CO₂/yil</span><b class="price">${som(x.price)}</b></span></button>`;
 			})
 			.join('')}</div>
-    <h3 style="margin-top:26px">Nechta?</h3>
+    <h3 class="section-title">Nechta?</h3>
     <div class="counter"><button id="dec" aria-label="Kamaytirish">−</button><output id="cnt">${W.count}</output><button id="inc" aria-label="Koʻpaytirish">+</button></div>
     <div class="presets">${[1, 5, 10, 50, 100].map(n => `<button data-n="${n}">${n} ta</button>`).join('')}</div>`;
 				} else if (W.step === 2) {
@@ -31689,13 +32172,13 @@
 		]
 			.map(
 				([k, t, d]) =>
-					`<button class="choice" data-for="${k}" aria-pressed="${W.forWhom === k}"><h3>${t}</h3><span class="small muted">${d}</span></button>`,
+					`<button class="choice" data-for="${k}" aria-pressed="${W.forWhom === k}"><h3>${t}</h3><span class="subtle">${d}</span></button>`,
 			)
 			.join('')}</div>
     <div class="field"><label for="nm">${W.forWhom === 'company' ? 'Kompaniya nomi' : W.forWhom === 'gift' ? 'Kimga sovgʻa' : 'Pasportdagi ism'}</label><input id="nm" value="${esc(W.name)}" placeholder="${W.forWhom === 'company' ? 'Masalan: Kamalak IT' : 'Masalan: Dilnoza Rahimova'}"></div>
     ${W.forWhom !== 'self' ? `<div class="field"><label for="msg">Pasportdagi yozuv (ixtiyoriy)</label><textarea id="msg" rows="3" placeholder="Masalan: Tugʻilgan kuning bilan! Bu daraxt sen bilan birga oʻssin.">${esc(W.message)}</textarea></div>` : ''}`;
 				} else {
-					body = `<h2>Toʻlov</h2><p class="muted">Prototipda toʻlov simulyatsiya qilinadi, pul yechilmaydi.</p>
+					body = `<h2>Toʻlov</h2><p class="lead">Prototipda toʻlov simulyatsiya qilinadi, pul yechilmaydi.</p>
     <div class="choices">${[
 			['payme', 'Payme', 'Oʻzbekiston kartalari'],
 			['click', 'Click', 'Oʻzbekiston kartalari'],
@@ -31704,19 +32187,19 @@
 		]
 			.map(
 				([k, t, d]) =>
-					`<button class="choice" data-pay="${k}" aria-pressed="${W.pay === k}"><span class="pay-head">${payMark(k)}<h3>${t}</h3></span><span class="small muted">${d}</span></button>`,
+					`<button class="choice" data-pay="${k}" aria-pressed="${W.pay === k}"><span class="pay-head">${payMark(k)}<h3>${t}</h3></span><span class="subtle">${d}</span></button>`,
 			)
 			.join('')}</div>`;
 				}
 				const canNext = [!!W.region, !!W.species && W.count > 0, W.name.trim().length > 1, !!W.pay][W.step];
 				$('#app').innerHTML = `
-  <h2 style="font-size:clamp(1.5rem,3vw,2.1rem)">Daraxt ekish</h2>
+  <div class="page-head"><h2>Daraxt ekish</h2>
   <div class="progress" aria-label="${W.step + 1}-bosqich, jami 4">${steps.map((_, i) => `<div class="${i <= W.step ? 'on' : ''}"></div>`).join('')}</div>
-  <p class="small muted">${W.step + 1}/4 · ${steps[W.step]}</p>
+  <p class="subtle step-count">${W.step + 1}/4 · ${steps[W.step]}</p></div>
   <div class="wizard">
     <section id="wizStep">${body}
       <div class="wiz-nav">
-        <button class="btn btn-ghost" id="prev" ${W.step === 0 ? "style='visibility:hidden'" : ''}>Orqaga</button>
+        <button class="btn btn-ghost${W.step === 0 ? ' invisible' : ''}" id="prev">Orqaga</button>
         <button class="btn btn-primary" id="next" ${canNext ? '' : 'disabled'}>${W.step === 3 ? `${som(total)} toʻlash` : 'Davom etish'}</button>
       </div>
     </section>
@@ -31826,21 +32309,21 @@
 			function pageMy() {
 				if (!ORDERS.length) {
 					$('#app').innerHTML =
-						`<h2>Mening daraxtlarim</h2><div class="empty"><h3>Hali daraxt ekmadingiz</h3><p class="muted">Birinchi daraxtingizni ekib, uning QR-pasportini oling. Pilot hududlarda narx 25 000 soʻmdan boshlanadi.</p><a class="btn btn-primary" href="#/plant">Daraxt ekish</a></div>`;
+						`<div class="page-head"><h2>Mening daraxtlarim</h2></div><div class="empty"><h3>Hali daraxt ekmadingiz</h3><p class="muted">Birinchi daraxtingizni ekib, uning QR-pasportini oling. Pilot hududlarda narx 25 000 soʻmdan boshlanadi.</p><a class="btn btn-primary" href="#/plant">Daraxt ekish</a></div>`;
 					return;
 				}
 				const mine = TREES.filter(t => t.mine);
-				$('#app').innerHTML = `<h2>Mening daraxtlarim</h2>
-  <div class="kpis"><div class="panel"><b>${ORDERS.reduce((s, o) => s + o.count, 0)}</b><span class="muted small">buyurtma qilingan daraxt</span></div>
-  <div class="panel"><b>${mine.length}</b><span class="muted small">ekilgan va pasport olgan</span></div>
-  <div class="panel"><b>≈${fmt(mine.reduce((s, t) => s + speciesOf(t.species).co2, 0))} kg</b><span class="muted small">CO₂ yiliga</span></div></div>
+				$('#app').innerHTML = `<div class="page-head"><h2>Mening daraxtlarim</h2></div>
+  <div class="kpis"><div class="panel"><b>${ORDERS.reduce((s, o) => s + o.count, 0)}</b><span class="subtle">buyurtma qilingan daraxt</span></div>
+  <div class="panel"><b>${mine.length}</b><span class="subtle">ekilgan va pasport olgan</span></div>
+  <div class="panel"><b>≈${fmt(mine.reduce((s, t) => s + speciesOf(t.species).co2, 0))} kg</b><span class="subtle">CO₂ yiliga</span></div></div>
   <div class="order-list">${ORDERS.map(o => {
 		const s = speciesOf(o.species),
 			r = regionOf(o.region);
 		return `<div class="order">
-    <div><h3>${o.count} ta ${s.name.toLowerCase()} · ${r.name}</h3><p class="small muted">${o.id} · ${dateUz(o.created)} · ${esc(o.name)}</p><div style="margin-top:8px">${orderPill(o.status)}</div></div>
+    <div><h3>${o.count} ta ${s.name.toLowerCase()} · ${r.name}</h3><p class="subtle">${o.id} · ${dateUz(o.created)} · ${esc(o.name)}</p><div class="order-status">${orderPill(o.status)}</div></div>
     <div class="acts">${o.status === 'planted' ? `<a class="btn btn-primary" href="#/tree/${o.treeIds[0]}">Pasport${o.treeIds.length > 1 ? ` (${o.treeIds.length})` : ''}</a>` : `<a class="btn btn-ghost" href="#/partner">Hamkor kabinetida koʻrish</a>`}
-      ${o.forWhom === 'gift' ? (o.status === 'planted' ? `<button class="btn btn-ghost" data-share="${o.id}">${tr('share.btn')}</button>` : `<span class="small muted" style="flex-basis:100%;text-align:right">${tr('share.later')}</span>`) : ''}</div></div>`;
+      ${o.forWhom === 'gift' ? (o.status === 'planted' ? `<button class="btn btn-ghost" data-share="${o.id}" aria-label="${tr('share.btn')}"><span class="lbl-full">${tr('share.btn')}</span><span class="lbl-short">${tr('share.btn.short')}</span></button>` : `<span class="subtle acts-hint">${tr('share.later')}</span>`) : ''}</div></div>`;
 	}).join('')}</div>
   <p class="note">Demo uchun: “Hamkor kabineti” boʻlimiga oʻtib, buyurtmani fermer sifatida “ekilgan” deb belgilang. Shundan keyin daraxt xaritada paydo boʻladi va QR-pasport ochiladi.</p>`;
 				document
@@ -31856,9 +32339,9 @@
 				const url = location.href.split('#')[0] + '#/tree/' + o.treeIds[0];
 				const name = o.name || '';
 				openModal(`<h3>${tr('share.title')}</h3>
-  <p class="small muted" style="margin-top:4px">${tr('share.lead', { name: esc(name), what: `${o.count} ta ${s.name.toLowerCase()}` })}</p>
+  <p class="subtle modal-sub">${tr('share.lead', { name: esc(name), what: `${o.count} ta ${s.name.toLowerCase()}` })}</p>
   <div class="field"><label for="shareMsg">${tr('share.msg.label')}</label><textarea id="shareMsg" rows="3">${esc(tr('share.msg', { name }))}</textarea></div>
-  <div class="hash" style="margin-top:10px">${esc(url)}</div>
+  <div class="hash mt-3">${esc(url)}</div>
   <div class="share-opts">
     <a class="btn btn-ghost" id="shareWa" target="_blank" rel="noopener">${SHARE_MARK.wa}WhatsApp</a>
     <a class="btn btn-ghost" id="shareTg" target="_blank" rel="noopener">${SHARE_MARK.tg}Telegram</a>
@@ -31960,10 +32443,10 @@
   <a class="back" href="#/map">← Xaritaga qaytish</a>
   <div class="passport">
     <section>
-      <p class="small muted">Daraxt raqamli pasporti</p>
-      <h1 style="font-size:clamp(1.6rem,3.4vw,2.4rem);margin-top:4px">${s.name} · ${t.id}</h1>
-      <div style="margin-top:12px">${statusPill(t.status)}</div>
-      ${t.dedication ? `<blockquote style="margin:18px 0 0;padding:14px 18px;background:var(--turq-soft);border-radius:14px;font-size:1.05rem">“${esc(t.dedication)}”</blockquote>` : ''}
+      <div class="page-head"><p class="kicker">Daraxt raqamli pasporti</p>
+      <h1>${s.name} · <span class="nowrap">${t.id}</span></h1>
+      <div class="title-meta">${statusPill(t.status)}</div></div>
+      ${t.dedication ? `<blockquote class="dedication">“${esc(t.dedication)}”</blockquote>` : ''}
       <div class="facts">
         <div><span>Egasi</span>${esc(t.owner)}</div>
         <div><span>Ekilgan sana</span>${dateUz(t.planted)}</div>
@@ -31974,24 +32457,24 @@
         <div><span>Yoshi</span>${months} oy</div>
         <div><span>CO₂ (taxminiy)</span>≈${s.co2} kg/yil</div>
       </div>
-      <h3 style="margin-top:28px">Oʻsish tarixi</h3>
-      <div class="timeline">${photos.map(p => `<figure class="shot" style="margin:0">${p.img}<p>${p.cap}</p></figure>`).join('')}</div>
-      <h3 style="margin-top:28px">Tekshiruvlar</h3>
-      <div class="checks">${checks.map(([k, a, b]) => `<div>${ic(k)}<span><b>${a}</b><br><span class="small muted">${b}</span></span></div>`).join('')}</div>
-      ${t.status === 'planted' ? `<button class="btn btn-ghost" id="simAI" style="margin-top:12px">Tekshiruvni simulyatsiya qilish (demo)</button>` : ''}
+      <h3 class="section-title">Oʻsish tarixi</h3>
+      <div class="timeline">${photos.map(p => `<figure class="shot">${p.img}<p>${p.cap}</p></figure>`).join('')}</div>
+      <h3 class="section-title">Tekshiruvlar</h3>
+      <div class="checks">${checks.map(([k, a, b]) => `<div>${ic(k)}<span><b>${a}</b><br><span class="subtle">${b}</span></span></div>`).join('')}</div>
+      ${t.status === 'planted' ? `<button class="btn btn-ghost btn-sm mt-3" id="simAI">Tekshiruvni simulyatsiya qilish (demo)</button>` : ''}
       <div class="mini-map" id="miniMap"></div>
     </section>
     <aside class="panel qr-card">
       <h3>QR-kod</h3>
-      <p class="small muted">Skanerlagan har kim shu sahifani koʻradi</p>
+      <p class="subtle">Skanerlagan har kim shu sahifani koʻradi</p>
       <div class="qr">${qr.createSvgTag({ cellSize: 4, margin: 2, scalable: true })}</div>
-      <button class="btn btn-ghost" id="copy" style="width:100%">Havolani nusxalash</button>
-      <h3 style="margin-top:22px;text-align:left">Sertifikat</h3>
-      <p class="small muted" style="text-align:left;margin:6px 0 10px">Pasport maʼlumotlarining SHA-256 izi. Maʼlumot oʻzgarsa, iz ham oʻzgaradi.</p>
+      <button class="btn btn-ghost btn-block" id="copy">Havolani nusxalash</button>
+      <h3 class="panel-sub">Sertifikat</h3>
+      <p class="subtle panel-desc">Pasport maʼlumotlarining SHA-256 izi. Maʼlumot oʻzgarsa, iz ham oʻzgaradi.</p>
       <div class="hash" id="hash">${hash}</div>
-      <button class="btn btn-ghost" id="verify" style="width:100%;margin-top:10px">Haqiqiyligini tekshirish</button>
-      <button class="btn btn-primary" id="certBtn" style="width:100%;margin-top:10px">${tr('cert.download')}</button>
-      <p class="note" style="text-align:left">Prototipda iz brauzerda hisoblanadi. Toʻliq versiyada u ommaviy blokcheynga yoziladi va tranzaksiya havolasi shu yerda chiqadi.</p>
+      <div class="btn-stack"><button class="btn btn-ghost" id="verify">Haqiqiyligini tekshirish</button>
+      <button class="btn btn-primary" id="certBtn">${tr('cert.download')}</button></div>
+      <p class="note">Prototipda iz brauzerda hisoblanadi. Toʻliq versiyada u ommaviy blokcheynga yoziladi va tranzaksiya havolasi shu yerda chiqadi.</p>
     </aside>
   </div>`;
 				const qsvg = $('.qr svg');
@@ -32056,7 +32539,7 @@
     <dl class="cert-facts">${facts.map(([k, v]) => `<div><dt>${tr(k)}</dt><dd>${v}</dd></div>`).join('')}</dl>
     <div class="cert-foot">
       <div class="cert-qr">${qrSvg.replace(/ (width|height)="[^"]*"/g, '')}</div>
-      <div><b>${tr('cert.hash')}</b><div class="hash" style="margin-top:6px">${hash}</div><p class="cert-note" style="margin-top:8px">${tr('cert.verify')}</p></div>
+      <div><b>${tr('cert.hash')}</b><div class="hash">${hash}</div><p class="cert-note">${tr('cert.verify')}</p></div>
     </div>
     <p class="cert-note">${tr('cert.note', { date: dateUz(new Date()) })}</p>
   </div>
@@ -32098,13 +32581,13 @@
 					['regions', 'Hududlar'],
 				];
 				$('#app').innerHTML =
-					`<h2>Reyting</h2><p class="muted">Ekilgan daraxtlar soni va ularning tirik qolish darajasi boʻyicha</p>
+					`<div class="page-head"><h2>Reyting</h2><p class="lead">Ekilgan daraxtlar soni va ularning tirik qolish darajasi boʻyicha</p></div>
   <div class="tabs" role="tablist">${tabs.map(([k, l]) => `<button role="tab" aria-selected="${ratingTab === k}" data-tab="${k}">${l}</button>`).join('')}</div>
   <div class="table-wrap"><table><thead><tr><th>#</th><th>Nomi</th><th class="num">Daraxtlar</th><th>Tirik qolish</th></tr></thead><tbody>
   ${rows
 		.map((x, i) => {
 			const p = Math.round((x.alive / x.trees) * 100);
-			return `<tr class="${i === 0 ? 'top1' : ''}"><td class="rank">${i + 1}</td><td>${esc(x.name)}</td><td class="num">${x.trees}</td><td><div style="display:flex;gap:10px;align-items:center"><div class="bar" style="flex:1"><i style="width:${p}%"></i></div><span class="small">${p}%</span></div></td></tr>`;
+			return `<tr class="${i === 0 ? 'top1' : ''}"><td class="rank">${i + 1}</td><td>${esc(x.name)}</td><td class="num">${x.trees}</td><td><div class="rate-cell"><div class="bar"><i style="width:${p}%"></i></div><span class="small">${p}%</span></div></td></tr>`;
 		})
 		.join('')}
   </tbody></table></div>
@@ -32123,24 +32606,24 @@
 				const pending = ORDERS.filter(o => o.status === 'paid');
 				const done = ORDERS.filter(o => o.status === 'planted');
 				$('#app').innerHTML =
-					`<p class="small muted">Hamkor kabineti · demo</p><h2>«Qorakoʻl Yashil» fermer xoʻjaligi</h2>
-  <div class="kpis"><div class="panel"><b>${pending.reduce((s, o) => s + o.count, 0)}</b><span class="muted small">ekilishi kerak</span></div>
-  <div class="panel"><b>${TREES.filter(t => !t.mine && t.region === 'buxoro').length + done.reduce((s, o) => s + o.count, 0)}</b><span class="muted small">jami ekilgan</span></div>
-  <div class="panel"><b>${som(TREES.filter(t => t.region === 'buxoro').length * 12000)}</b><span class="muted small">shu mavsum daromadi (demo)</span></div></div>
-  <h3 style="margin-top:28px">Yangi buyurtmalar</h3>
+					`<div class="page-head"><p class="kicker">Hamkor kabineti · demo</p><h2>«Qorakoʻl Yashil» fermer xoʻjaligi</h2></div>
+  <div class="kpis"><div class="panel"><b>${pending.reduce((s, o) => s + o.count, 0)}</b><span class="subtle">ekilishi kerak</span></div>
+  <div class="panel"><b>${TREES.filter(t => !t.mine && t.region === 'buxoro').length + done.reduce((s, o) => s + o.count, 0)}</b><span class="subtle">jami ekilgan</span></div>
+  <div class="panel"><b>${som(TREES.filter(t => t.region === 'buxoro').length * 12000)}</b><span class="subtle">shu mavsum daromadi (demo)</span></div></div>
+  <h3 class="section-title">Yangi buyurtmalar</h3>
   ${
 		pending.length
 			? `<div class="order-list">${pending
 					.map(o => {
 						const s = speciesOf(o.species),
 							r = regionOf(o.region);
-						return `<div class="order"><div><h3>${o.count} ta ${s.name.toLowerCase()}</h3><p class="small muted">${r.name} · ${o.id} · ${dateUz(o.created)}</p></div><div class="acts"><button class="btn btn-leaf" data-plant="${o.id}">Ekildi deb belgilash</button></div></div>`;
+						return `<div class="order"><div><h3>${o.count} ta ${s.name.toLowerCase()}</h3><p class="subtle">${r.name} · ${o.id} · ${dateUz(o.created)}</p></div><div class="acts"><button class="btn btn-leaf" data-plant="${o.id}">Ekildi deb belgilash</button></div></div>`;
 					})
 					.join('')}</div>`
 			: `<div class="empty"><h3>Yangi buyurtma yoʻq</h3><p class="muted">Demo uchun avval “Daraxt ekish” boʻlimida buyurtma bering. U shu yerda paydo boʻladi.</p><a class="btn btn-primary" href="#/plant">Buyurtma berish</a></div>`
 	}
   <p class="note">Haqiqiy ilovada hamkor faqat oʻz hududidagi buyurtmalarni koʻradi, rasm faqat kameradan olinadi va GPS avtomatik yoziladi.</p>
-  <p class="small" style="margin-top:14px"><a href="#/admin">${tr('review.link')} →</a></p>`;
+  <p class="small mt-4"><a href="#/admin">${tr('review.link')} →</a></p>`;
 				document.querySelectorAll('[data-plant]').forEach(b => (b.onclick = () => openPlantDialog(b.dataset.plant)));
 			}
 			function openPlantDialog(oid) {
@@ -32151,9 +32634,9 @@
 					lon = +(r.lon + (Math.random() - 0.5) * 0.3).toFixed(5);
 				let photo = null;
 				$('#dlgIn').innerHTML =
-					`<h3>Ekishni tasdiqlash</h3><p class="small muted" style="margin-top:4px">${o.count} ta ${s.name.toLowerCase()} · ${o.id}</p>
-  <div class="gps"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--turq)" stroke-width="2"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg><span>GPS aniqlandi: <b>${lat}, ${lon}</b><br><span class="small muted">Aniqlik ±4 m (demo)</span></span></div>
-  <label class="upload" id="upl"><input type="file" accept="image/*" capture="environment" hidden id="file"><b>Rasm yuklash</b><br><span class="small muted">Ekilgan koʻchat rasmi (ixtiyoriy, demo)</span><div id="prev"></div></label>
+					`<h3>Ekishni tasdiqlash</h3><p class="subtle modal-sub">${o.count} ta ${s.name.toLowerCase()} · ${o.id}</p>
+  <div class="gps"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--turq)" stroke-width="2"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg><span>GPS aniqlandi: <b>${lat}, ${lon}</b><br><span class="subtle">Aniqlik ±4 m (demo)</span></span></div>
+  <label class="upload" id="upl"><input type="file" accept="image/*" capture="environment" hidden id="file"><b>Rasm yuklash</b><br><span class="subtle">Ekilgan koʻchat rasmi (ixtiyoriy, demo)</span><div id="prev"></div></label>
   <div class="row"><button class="btn btn-ghost" id="cancel">Bekor qilish</button><button class="btn btn-leaf" id="ok">Ekildi</button></div>`;
 				const dlg = $('#dlg');
 				dlg.showModal();
@@ -32221,12 +32704,13 @@
 								uploaded: dateUz(t.uploaded),
 								days: Math.round((new Date(t.uploaded) - new Date(t.taken)) / 864e5),
 							});
-				$('#app').innerHTML = `<p class="small muted">${tr('review.kicker')}</p><h2>${tr('review.title')}</h2>
-  <p class="muted" style="margin-top:6px;max-width:70ch">${tr('review.lead')}</p>
-  <div class="kpis"><div class="panel"><b>${queue.length}</b><span class="muted small">${tr('review.kpi.queue')}</span></div>
-  <div class="panel"><b>${decided.filter(e => e.to === 'alive').length}</b><span class="muted small">${tr('review.kpi.approved')}</span></div>
-  <div class="panel"><b>${decided.filter(e => e.to === 'rejected').length}</b><span class="muted small">${tr('review.kpi.rejected')}</span></div></div>
-  <h3 style="margin-top:28px">${tr('review.queue')} (${queue.length})</h3>
+				$('#app').innerHTML =
+					`<div class="page-head"><p class="kicker">${tr('review.kicker')}</p><h2>${tr('review.title')}</h2>
+  <p class="lead">${tr('review.lead')}</p></div>
+  <div class="kpis"><div class="panel"><b>${queue.length}</b><span class="subtle">${tr('review.kpi.queue')}</span></div>
+  <div class="panel"><b>${decided.filter(e => e.to === 'alive').length}</b><span class="subtle">${tr('review.kpi.approved')}</span></div>
+  <div class="panel"><b>${decided.filter(e => e.to === 'rejected').length}</b><span class="subtle">${tr('review.kpi.rejected')}</span></div></div>
+  <h3 class="section-title">${tr('review.queue')} (${queue.length})</h3>
   ${
 		queue.length
 			? `<div class="order-list">${queue
@@ -32234,8 +32718,8 @@
 						const s = speciesOf(t.species),
 							r = regionOf(t.region);
 						return `<div class="review">${saplingSVG(0, t.id.length * 7 + i)}
-    <div><h3>${s.name} · ${t.id}</h3><p class="small muted">${tr('review.meta', { region: r.name, partner: r.partner, date: dateUz(t.uploaded) })}</p>
-      <div style="margin-top:8px"><span class="pill check"><span class="dot"></span>${tr('review.check.' + t.check)}</span></div>
+    <div><h3>${s.name} · <span class="nowrap">${t.id}</span></h3><p class="subtle">${tr('review.meta', { region: r.name, partner: r.partner, date: dateUz(t.uploaded) })}</p>
+      <div class="order-status"><span class="pill check"><span class="dot"></span>${tr('review.check.' + t.check)}</span></div>
       <p class="why">${reason(t)}</p></div>
     <div class="acts"><button class="btn btn-leaf" data-approve="${t.id}">${tr('review.approve')}</button><button class="btn btn-ghost" data-reject="${t.id}">${tr('review.reject')}</button></div></div>`;
 					})
@@ -32244,12 +32728,12 @@
 	}
   ${
 		decided.length
-			? `<h3 style="margin-top:28px">${tr('review.history')}</h3>
+			? `<h3 class="section-title">${tr('review.history')}</h3>
   <div class="table-wrap"><table><thead><tr><th>${tr('review.col.tree')}</th><th>${tr('review.col.decision')}</th><th>${tr('review.col.reason')}</th><th>${tr('review.col.time')}</th></tr></thead><tbody>
   ${decided
 		.map(
 			e =>
-				`<tr><td>${e.to === 'alive' ? `<a href="#/tree/${e.tree}">${e.tree}</a>` : e.tree}</td><td>${e.to === 'alive' ? `<span class="pill alive"><span class="dot"></span>${tr('review.pill.approved')}</span>` : `<span class="pill dead"><span class="dot"></span>${tr('review.pill.rejected')}</span>`}</td><td class="small">${esc(e.reason)}</td><td class="small muted">${dateUz(e.at)}, ${new Date(e.at).toTimeString().slice(0, 5)}</td></tr>`,
+				`<tr><td>${e.to === 'alive' ? `<a href="#/tree/${e.tree}">${e.tree}</a>` : e.tree}</td><td>${e.to === 'alive' ? `<span class="pill alive"><span class="dot"></span>${tr('review.pill.approved')}</span>` : `<span class="pill dead"><span class="dot"></span>${tr('review.pill.rejected')}</span>`}</td><td class="small">${esc(e.reason)}</td><td class="subtle">${dateUz(e.at)}, ${new Date(e.at).toTimeString().slice(0, 5)}</td></tr>`,
 		)
 		.join('')}
   </tbody></table></div>`
@@ -32285,7 +32769,7 @@
 			}
 			function openReject(t) {
 				const dlg =
-					openModal(`<h3>${tr('review.reject.title')}</h3><p class="small muted" style="margin-top:4px">${speciesOf(t.species).name} · ${t.id}</p>
+					openModal(`<h3>${tr('review.reject.title')}</h3><p class="subtle modal-sub">${speciesOf(t.species).name} · ${t.id}</p>
   <div class="field"><label for="rejWhy">${tr('review.reject.label')}</label><select id="rejWhy">${[1, 2, 3, 4].map(i => `<option>${tr('review.reject.r' + i)}</option>`).join('')}</select></div>
   <div class="row"><button class="btn btn-ghost" data-close>${tr('common.close')}</button><button class="btn btn-primary" id="rejOk">${tr('review.reject')}</button></div>`);
 				$('#rejOk').onclick = () => {
@@ -32303,17 +32787,17 @@
 				const alive = list.filter(t => t.status === 'alive' || t.status === 'replanted').length;
 				const co2 = list.reduce((sum, t) => sum + speciesOf(t.species).co2, 0);
 				$('#app').innerHTML =
-					`<p class="small muted">${tr('org.kicker')}</p><h2>${esc(ORG.name)}</h2><p class="muted">${tr('org.lead')}</p>
-  <div class="kpis"><div class="panel"><b>${list.length}</b><span class="muted small">${tr('org.kpi.trees')}</span></div>
-  <div class="panel"><b>${list.length ? Math.round((alive / list.length) * 100) : 0}%</b><span class="muted small">${tr('org.kpi.survival')}</span></div>
-  <div class="panel"><b>≈${fmt(co2)} kg</b><span class="muted small">${tr('org.kpi.co2')}</span></div></div>
-  <div class="section-head" style="margin-top:28px"><h3>${tr('org.trees')}</h3><button class="btn btn-primary" id="report" ${list.length ? '' : 'disabled'}>${tr('org.report')}</button></div>
+					`<div class="page-head"><p class="kicker">${tr('org.kicker')}</p><h2>${esc(ORG.name)}</h2><p class="lead">${tr('org.lead')}</p></div>
+  <div class="kpis"><div class="panel"><b>${list.length}</b><span class="subtle">${tr('org.kpi.trees')}</span></div>
+  <div class="panel"><b>${list.length ? Math.round((alive / list.length) * 100) : 0}%</b><span class="subtle">${tr('org.kpi.survival')}</span></div>
+  <div class="panel"><b>≈${fmt(co2)} kg</b><span class="subtle">${tr('org.kpi.co2')}</span></div></div>
+  <div class="section-head"><h3>${tr('org.trees')}</h3><button class="btn btn-primary" id="report" ${list.length ? '' : 'disabled'}>${tr('org.report')}</button></div>
   ${
 		list.length
 			? `<div class="table-wrap"><table><thead><tr><th>${tr('org.col.id')}</th><th>${tr('org.col.species')}</th><th>${tr('org.col.region')}</th><th>${tr('org.col.planted')}</th><th>${tr('org.col.status')}</th></tr></thead><tbody>
   ${list.map(t => `<tr><td class="nowrap"><a href="#/tree/${t.id}">${t.id}</a></td><td>${speciesOf(t.species).name}</td><td class="small">${regionOf(t.region).name}</td><td class="small">${dateUz(t.planted)}</td><td>${statusPill(t.status)}</td></tr>`).join('')}
   </tbody></table></div>`
-			: `<div class="empty"><h3>${tr('org.empty')}</h3><a class="btn btn-primary" href="#/plant">${tr('home.cta.plant')}</a></div>`
+			: `<div class="empty"><h3>${tr('org.empty')}</h3><p>${tr('org.empty.d')}</p><a class="btn btn-primary" href="#/plant">${tr('home.cta.plant')}</a></div>`
 	}
   <p class="note">${tr('org.note')}</p>`;
 				$('#report').onclick = () => {
@@ -32367,6 +32851,17 @@
 				const [, p, arg] = h.split('/');
 				const active = '#/' + (p || '');
 				renderNav(active === '#/tree' ? '' : active);
+				const TITLE_KEY = {
+					map: 'nav.map',
+					plant: 'nav.plant',
+					my: 'nav.my',
+					rating: 'nav.rating',
+					partner: 'nav.partner',
+					admin: 'review.title',
+					org: 'title.org',
+					tree: 'title.tree',
+				};
+				document.title = TITLE_KEY[p] ? `${tr(TITLE_KEY[p])} · EcoRoots` : `EcoRoots · ${tr('title.home')}`;
 				window.scrollTo(0, 0);
 				if (p === 'map') pageMap();
 				else if (p === 'plant') pagePlant();

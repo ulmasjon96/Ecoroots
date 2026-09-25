@@ -1,0 +1,207 @@
+{
+ "my@360": [
+  "wrapped button: button.btn.btn-ghost \"Qabul qiluvchiga havolani yubo\" w=282"
+ ],
+ "org@360": [
+  "wrapped: span.pill.alive \"Tirik · tasdiqlangan\""
+ ],
+ "tree@360": [
+  "wrapped button: button#simAI.btn.btn-ghost \"Tekshiruvni simulyatsiya qilis\" w=320"
+ ],
+ "modal-cert@360": [
+  "wrapped button: button#certPrint.btn.btn-primary \"Chop etish yoki PDF saqlash\" w=176"
+ ],
+ "org@390": [
+  "wrapped: span.pill.alive \"Tirik · tasdiqlangan\""
+ ],
+ "modal-cert@390": [
+  "wrapped button: button#certPrint.btn.btn-primary \"Chop etish yoki PDF saqlash\" w=206"
+ ],
+ "modal-share@390": [
+  "wrapped button: button#shareCopy.btn.btn-ghost \"Havolani nusxalash\" w=150"
+ ],
+ "org@768": [
+  "wrapped: span.pill.alive \"Tirik · tasdiqlangan\""
+ ],
+ "modal-share@768": [
+  "wrapped button: button#shareCopy.btn.btn-ghost \"Havolani nusxalash\" w=151"
+ ],
+ "home@1024": [
+  "header taller than 64px: 87",
+  "wrapped: a \"Daraxt ekish\"",
+  "wrapped: a \"Mening daraxtlarim\"",
+  "wrapped: a \"Hamkor kabineti\"",
+  "word wider than box: \"oʻsayotganini\" in h1 \"Daraxtni masofadan eking. Qaye\" (365 > 330)"
+ ],
+ "map@1024": [
+  "header taller than 64px: 87",
+  "wrapped: a \"Daraxt ekish\"",
+  "wrapped: a \"Mening daraxtlarim\"",
+  "wrapped: a \"Hamkor kabineti\""
+ ],
+ "plant1@1024": [
+  "header taller than 64px: 87",
+  "wrapped: a \"Daraxt ekish\"",
+  "wrapped: a \"Mening daraxtlarim\"",
+  "wrapped: a \"Hamkor kabineti\""
+ ],
+ "plant2@1024": [
+  "header taller than 64px: 87",
+  "wrapped: a \"Daraxt ekish\"",
+  "wrapped: a \"Mening daraxtlarim\"",
+  "wrapped: a \"Hamkor kabineti\""
+ ],
+ "plant3@1024": [
+  "header taller than 64px: 87",
+  "wrapped: a \"Daraxt ekish\"",
+  "wrapped: a \"Mening daraxtlarim\"",
+  "wrapped: a \"Hamkor kabineti\""
+ ],
+ "plant4@1024": [
+  "header taller than 64px: 87",
+  "wrapped: a \"Daraxt ekish\"",
+  "wrapped: a \"Mening daraxtlarim\"",
+  "wrapped: a \"Hamkor kabineti\""
+ ],
+ "my@1024": [
+  "header taller than 64px: 87",
+  "wrapped: a \"Daraxt ekish\"",
+  "wrapped: a \"Mening daraxtlarim\"",
+  "wrapped: a \"Hamkor kabineti\""
+ ],
+ "rating@1024": [
+  "header taller than 64px: 87",
+  "wrapped: a \"Daraxt ekish\"",
+  "wrapped: a \"Mening daraxtlarim\"",
+  "wrapped: a \"Hamkor kabineti\""
+ ],
+ "partner@1024": [
+  "header taller than 64px: 87",
+  "wrapped: a \"Daraxt ekish\"",
+  "wrapped: a \"Mening daraxtlarim\"",
+  "wrapped: a \"Hamkor kabineti\""
+ ],
+ "admin@1024": [
+  "header taller than 64px: 87",
+  "wrapped: a \"Daraxt ekish\"",
+  "wrapped: a \"Mening daraxtlarim\"",
+  "wrapped: a \"Hamkor kabineti\""
+ ],
+ "org@1024": [
+  "header taller than 64px: 87",
+  "wrapped: a \"Daraxt ekish\"",
+  "wrapped: a \"Mening daraxtlarim\"",
+  "wrapped: a \"Hamkor kabineti\""
+ ],
+ "tree@1024": [
+  "header taller than 64px: 87",
+  "wrapped: a \"Daraxt ekish\"",
+  "wrapped: a \"Mening daraxtlarim\"",
+  "wrapped: a \"Hamkor kabineti\""
+ ],
+ "modal-cert@1024": [
+  "header taller than 64px: 87",
+  "wrapped: a \"Daraxt ekish\"",
+  "wrapped: a \"Mening daraxtlarim\"",
+  "wrapped: a \"Hamkor kabineti\""
+ ],
+ "modal-share@1024": [
+  "header taller than 64px: 87",
+  "wrapped: a \"Daraxt ekish\"",
+  "wrapped: a \"Mening daraxtlarim\"",
+  "wrapped: a \"Hamkor kabineti\"",
+  "wrapped button: button#shareCopy.btn.btn-ghost \"Havolani nusxalash\" w=151"
+ ],
+ "home@1280": [
+  "word wider than box: \"oʻsayotganini\" in h1 \"Daraxtni masofadan eking. Qaye\" (401 > 395)"
+ ],
+ "modal-share@1280": [
+  "wrapped button: button#shareCopy.btn.btn-ghost \"Havolani nusxalash\" w=151"
+ ],
+ "home@1440": [
+  "header taller than 64px: 87",
+  "wrapped: a \"Daraxt ekish\"",
+  "wrapped: a \"Mening daraxtlarim\"",
+  "wrapped: a \"Hamkor kabineti\"",
+  "word wider than box: \"oʻsayotganini\" in h1 \"Daraxtni masofadan eking. Qaye\" (401 > 395)"
+ ],
+ "map@1440": [
+  "header taller than 64px: 87",
+  "wrapped: a \"Daraxt ekish\"",
+  "wrapped: a \"Mening daraxtlarim\"",
+  "wrapped: a \"Hamkor kabineti\""
+ ],
+ "plant1@1440": [
+  "header taller than 64px: 87",
+  "wrapped: a \"Daraxt ekish\"",
+  "wrapped: a \"Mening daraxtlarim\"",
+  "wrapped: a \"Hamkor kabineti\""
+ ],
+ "plant2@1440": [
+  "header taller than 64px: 87",
+  "wrapped: a \"Daraxt ekish\"",
+  "wrapped: a \"Mening daraxtlarim\"",
+  "wrapped: a \"Hamkor kabineti\""
+ ],
+ "plant3@1440": [
+  "header taller than 64px: 87",
+  "wrapped: a \"Daraxt ekish\"",
+  "wrapped: a \"Mening daraxtlarim\"",
+  "wrapped: a \"Hamkor kabineti\""
+ ],
+ "plant4@1440": [
+  "header taller than 64px: 87",
+  "wrapped: a \"Daraxt ekish\"",
+  "wrapped: a \"Mening daraxtlarim\"",
+  "wrapped: a \"Hamkor kabineti\""
+ ],
+ "my@1440": [
+  "header taller than 64px: 87",
+  "wrapped: a \"Daraxt ekish\"",
+  "wrapped: a \"Mening daraxtlarim\"",
+  "wrapped: a \"Hamkor kabineti\""
+ ],
+ "rating@1440": [
+  "header taller than 64px: 87",
+  "wrapped: a \"Daraxt ekish\"",
+  "wrapped: a \"Mening daraxtlarim\"",
+  "wrapped: a \"Hamkor kabineti\""
+ ],
+ "partner@1440": [
+  "header taller than 64px: 87",
+  "wrapped: a \"Daraxt ekish\"",
+  "wrapped: a \"Mening daraxtlarim\"",
+  "wrapped: a \"Hamkor kabineti\""
+ ],
+ "admin@1440": [
+  "header taller than 64px: 87",
+  "wrapped: a \"Daraxt ekish\"",
+  "wrapped: a \"Mening daraxtlarim\"",
+  "wrapped: a \"Hamkor kabineti\""
+ ],
+ "org@1440": [
+  "header taller than 64px: 87",
+  "wrapped: a \"Daraxt ekish\"",
+  "wrapped: a \"Mening daraxtlarim\"",
+  "wrapped: a \"Hamkor kabineti\""
+ ],
+ "tree@1440": [
+  "header taller than 64px: 87",
+  "wrapped: a \"Daraxt ekish\"",
+  "wrapped: a \"Mening daraxtlarim\"",
+  "wrapped: a \"Hamkor kabineti\""
+ ],
+ "modal-cert@1440": [
+  "header taller than 64px: 87",
+  "wrapped: a \"Daraxt ekish\"",
+  "wrapped: a \"Mening daraxtlarim\"",
+  "wrapped: a \"Hamkor kabineti\""
+ ],
+ "modal-share@1440": [
+  "header taller than 64px: 87",
+  "wrapped: a \"Daraxt ekish\"",
+  "wrapped: a \"Mening daraxtlarim\"",
+  "wrapped: a \"Hamkor kabineti\"",
+  "wrapped button: button#shareCopy.btn.btn-ghost \"Havolani nusxalash\" w=151"
+ ]
+}
