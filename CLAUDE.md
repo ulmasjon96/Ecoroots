@@ -14,7 +14,9 @@ Pilot: Buxoro viloyati, 500 daraxt. Grant muddati: 12 oy (2026-noyabr — 2027-o
 - `docs/API.md` — REST endpointlar va ruxsatlar
 - `docs/DESIGN.md` — dizayn tokenlari, komponentlar, UI matn qoidalari
 - `docs/ROADMAP.md` — bosqichlar va vazifalar ro'yxati (checkbox). Ishni shu yerdan ol.
-- `docs/prototype/index.html` — klikabel prototip. UI va oqimlar uchun manba (brauzerda och).
+- `docs/prototype/index.html` — klikabel prototip. UI va oqimlar uchun manba. Lokal ishga tushirish:
+  `cd docs/prototype && python3 -m http.server 8000`, keyin http://localhost:8000 (`file://` orqali xarita yuklanmaydi).
+  Ommaviy havola: https://ulmasjon96.github.io/Ecoroots/prototype/
 
 ## Stack
 

@@ -1,6 +1,8 @@
 # Dizayn tizimi
 
-Manba: `docs/prototype/index.html`. Yangi ekran qilishdan oldin prototipdagi mos ekranni ochib ko'r.
+Manba: `docs/prototype/index.html`. Yangi ekran qilishdan oldin prototipdagi mos ekranni ochib ko'r:
+lokal — `cd docs/prototype && python3 -m http.server 8000`, keyin http://localhost:8000;
+ommaviy — https://ulmasjon96.github.io/Ecoroots/prototype/
 
 ## G'oya
 
