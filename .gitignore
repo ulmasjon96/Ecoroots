@@ -1,0 +1,3 @@
+# Prototype screenshots are generated locally by docs/prototype/screenshots/shoot.js
+docs/prototype/screenshots/**/*.jpg
+docs/prototype/screenshots/**/*.png

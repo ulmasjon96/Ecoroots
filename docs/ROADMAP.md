@@ -19,13 +19,16 @@ Har bir band tugashi = testlar o'tadi + tegishli hujjat yangilangan.
 - [ ] Buyurtma yaratish (narx serverda) + holatlar
 - [ ] To'lov adapteri: Payme (sandbox), Click (sandbox), idempotent callbacklar, testlar
 - [ ] Web: bosh sahifa, "Daraxt ekish" 4 bosqichli oqim, "Mening daraxtlarim" (prototip bo'yicha)
+  - _Prototipda demo sifatida qo'shildi, backend hali yo'q: xarita kirish animatsiyasi, statistika sanog'i, wizard o'tishlari, to'lov monogrammalari, yorug'/qorong'i rejim tugmasi._
 - [ ] Admin: hududlar, turlar/narxlar, hamkorlar, buyurtmalar, qaytarish
 
 ## 2-bosqich · Hamkor ilovasi, pasport, xarita (2027 yanvar — fevral)
 - [ ] `tree_lifecycle` servisi + `ALLOWED_TRANSITIONS` + `tree_events` + testlar
+  - _Prototipda demo sifatida qo'shildi, backend hali yo'q: brauzerdagi `transition()` + `ALLOWED_TRANSITIONS` + localStorage'dagi hodisalar jurnali (faqat `needs_review` o'tishlari)._
 - [ ] Hamkor kabineti (PWA): buyurtmalar, kamera rasmi, GPS, offline navbat (IndexedDB)
 - [ ] Presigned yuklash, EXIF o'qish, `ST_Within` tekshiruvi → `planted` / `needs_review`
 - [ ] Verifier navbati (admin)
+  - _Prototipda demo sifatida qo'shildi, backend hali yo'q: `#/admin` — 4 ta soxta `needs_review` yozuv (GPS / EXIF sanasi), tasdiqlash / rad etish (sabab bilan), qarorlar tarixi. Tasdiqlangan daraxt holati — PRD "Ochiq savollar"ga qarang._
 - [ ] Pasport sahifasi `/t/:code` + QR (server tomonda SVG) + OG-rasm (ulashish uchun)
 - [ ] Xarita: MapLibre, klasterlangan GeoJSON, hududlar paneli, filtrlar
 - [ ] Cho'llanish qatlami: dataset tanlash (tadqiqot), GeoJSON/PMTiles tayyorlash skripti
@@ -33,9 +36,11 @@ Har bir band tugashi = testlar o'tadi + tegishli hujjat yangilangan.
 
 ## 3-bosqich · Sertifikat va bot (2027 mart)
 - [ ] `certificates` zanjiri: canonical JSON, sha256, prev_hash; har planted daraxtga avtomatik
+  - _Prototipda demo sifatida qo'shildi, backend hali yo'q: pasportda "Sertifikatni yuklab olish" — print-view (`window.print()` → PDF), SHA-256 brauzerda hisoblanadi, `prev_hash` zanjiri yo'q._
 - [ ] Kunlik Merkle ildizi worker'i + `anchors`; `/certificate/proof` + brauzerda tekshirish
 - [ ] Blokcheyn adapteri interfeysi (`none` implementatsiyasi); TON/Polygon — qaror qabul qilingach
 - [ ] Bot: buyurtma to'landi / daraxt ekildi / tekshiruv natijasi / sovg'a havolasi xabarlari
+  - _Prototipda demo sifatida qo'shildi, backend hali yo'q: "Mening daraxtlarim"da sovg'a havolasini WhatsApp (`wa.me`) / Telegram (`t.me/share`) orqali ulashish; bot xabarlari yo'q._
 
 ## 4-bosqich · Pilot ekish (2027 aprel) — ⚠ AI'dan oldin
 - [ ] 500 daraxt Buxoroda real ekiladi, hamkor ilovasi dala sharoitida sinovdan o'tadi
@@ -51,6 +56,7 @@ Har bir band tugashi = testlar o'tadi + tegishli hujjat yangilangan.
 ## 6-bosqich · Rasmiylashtirish va o'sish (2027 may — oktyabr)
 - [ ] DGU ro'yxati uchun hujjatlar (kod arxivi, tavsif)
 - [ ] ru/en tarjimalar to'liq; korporativ hisobot (PDF)
+  - _Prototipda demo sifatida qo'shildi, backend hali yo'q: UZ/RU/EN almashtirgich (ru/en faqat bosh sahifa, navigatsiya va header); `#/org` tashkilot kabineti va CSV hisobot (PDF emas)._
 - [ ] Maktab/universitet challenj mexanikasi
 - [ ] Native ilova (Expo) — agar PWA yetarli bo'lmasa
 - [ ] Xalqaro to'lov va birinchi xorijiy hamkor
